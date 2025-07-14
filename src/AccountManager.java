@@ -41,6 +41,8 @@ public class AccountManager {
         // password
         String password = input.passwordValidation();
 
+        input.promptAccountType();
+
 
         db.add(new User(id, firstName, lastName, age, email, username, password));
 
@@ -51,14 +53,12 @@ public class AccountManager {
         return accountCreated;
     }
 
-    public boolean login(String username, String password){
-        if(db.contains(username) && db.contains(password)){
-            loggedOff = true;
-        }
-
-        return loggedOff;
+    // login
+    public boolean login(){
+        return loggedIn;
     }
 
+    // logput
     public boolean logout(){
         loggedIn = false;
         return loggedIn;

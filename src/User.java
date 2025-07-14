@@ -8,6 +8,7 @@ public class User {
     private String password;
     private double balance;
 
+
     public User(int id, String firstName, String lastName, int age, String email, String username, String password){
         this.id = id;
         this.firstName = firstName;

@@ -154,6 +154,26 @@ public class InputManager {
         return stringInput;
     }
 
+    // account type
+    public String promptAccountType(){
+
+        while (true){
+            System.out.println("Which account type would ypu like to open");
+            System.out.print("Checking | Saving | Checking and Saving: ");
+            stringInput = scanner.nextLine().toLowerCase().trim();
+
+            if(stringInput.isEmpty()){
+                System.out.println("🔶Please choose account type");
+            }else if(stringInput.equals("checking") || stringInput.equals("saving") || stringInput.equals("checking and saving") ){
+                break;
+            }else{
+                System.out.println("🔶Please choose account type");
+            }
+        }
+
+        return stringInput;
+    }
+
 
 
 

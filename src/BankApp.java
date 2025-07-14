@@ -1,8 +1,11 @@
+import java.util.Scanner;
+
 public class BankApp {
     public static void main(String[] args){
         System.out.println("Bank Management System");
 
 
+        Scanner scanner = new Scanner(System.in);
 
 
 
@@ -16,11 +19,17 @@ public class BankApp {
 
 
 
-        System.out.println("Create Account | Login");
+        System.out.print("Create Account | Login: ");
+        String action = scanner.nextLine();
 
         AccountManager ac = new AccountManager();
 
-        ac.createAccount();
+        if(action.equals("c")){
+            ac.createAccount();
+        }else if (action.equals("l")){
+            ac.login();
+        }
+
 
     }
 }

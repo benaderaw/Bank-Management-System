@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public abstract class AccountManager implements BankOperations{
+
     public boolean accountCreated;
     public boolean loggedIn;
     public boolean loggedOff;
     public ArrayList<Object> db;
-
 
     public AccountManager(){
         this.accountCreated = false;
@@ -14,10 +14,14 @@ public abstract class AccountManager implements BankOperations{
 
     @Override
     public boolean createAccount(String email, String username, String password){
+
+
         // check and validate if email exists
         if(!db.contains(email) && !db.contains(username) && password.length() > 8){
             accountCreated = true;
         }
+
+        db.add(new User(id, firstName, lastName, age, email, username, password));
 
         return accountCreated;
     }

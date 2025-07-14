@@ -99,6 +99,44 @@ public class InputManager {
         return email;
     }
 
+    // username
+    public String usernameValidation(){
+        while (true){
+            System.out.print("Username: ");
+            stringInput = scanner.nextLine().trim();
+
+            if(stringInput.isEmpty()){
+                System.out.print("🔶Please provide a username\n");
+                continue;
+            }else if(stringInput.length() < 4){
+                System.out.print("🔶Username needs to be at lease 4 characters long\n");
+                continue;
+            }
+            break;
+        }
+        return stringInput;
+    }
+
+    public String checkUniqueUsername(ArrayList<User> db){
+        String username;
+
+        OuterLoop:
+        while (true) {
+            username = usernameValidation();// bob88
+
+            for(User user: db){
+                if(username.equals(user.getUsername())){
+                    System.out.println("🔶Username already exists, try a different username");
+                    continue OuterLoop;
+                }
+            }
+            break;
+        }
+
+        return username;
+    }
+
+
 
 
 

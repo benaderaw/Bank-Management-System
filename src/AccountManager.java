@@ -33,10 +33,12 @@ public class AccountManager {
         int age = input.promptAge();
 
         // email
-        // username
-        // password
         String email = input.checkUniqueEmail(db);
-        String username = "input.promptLastname();";
+
+        // username
+        String username = input.checkUniqueUsername(db);
+
+        // password
         String password = "input.promptLastname();";
 
 

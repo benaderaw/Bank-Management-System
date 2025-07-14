@@ -136,6 +136,23 @@ public class InputManager {
         return username;
     }
 
+    // password
+    public String passwordValidation(){
+        while (true) {
+            System.out.print("Password: ");
+            stringInput = scanner.nextLine().trim();
+
+            if (stringInput.isEmpty()) {
+                System.out.println("🔶Please provide a password");
+            } else if (stringInput.length() < 8) {
+                System.out.println("🔶Password needs to be 8 characters or above");
+            } else {
+                break;
+            }
+        }
+
+        return stringInput;
+    }
 
 
 

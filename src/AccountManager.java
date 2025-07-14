@@ -39,13 +39,14 @@ public class AccountManager {
         String username = input.checkUniqueUsername(db);
 
         // password
-        String password = "input.promptLastname();";
+        String password = input.passwordValidation();
 
 
         db.add(new User(id, firstName, lastName, age, email, username, password));
 
-
-        System.out.print(db);
+        for(User user: db){
+            System.out.println(user);
+        }
 
         return accountCreated;
     }

@@ -2,15 +2,19 @@ import java.util.ArrayList;
 
 public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
+    private String accountType;
     private double balance;
     private ArrayList<Double> transactions;
 
     public BankAccount(){
+        this.accountType = "";
         this.balance = 0;
         this.transactions = new ArrayList<>();
     }
 
     // METHODS
+    public abstract void accountType();
+
     @Override
     public double deposit(double amount){
         balance = amount + balance;
@@ -48,6 +52,14 @@ public abstract class BankAccount implements BankOperations {
 
     public ArrayList<Double> getTransactions(){
         return transactions;
+    }
+
+    public String getAccountType(){
+        return accountType;
+    }
+
+    public void setAccountType(String accountType){
+        this.accountType = accountType;
     }
 
 

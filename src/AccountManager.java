@@ -10,6 +10,7 @@ public class AccountManager implements UserOperations {
     public ArrayList<User> db;
     public ArrayList<BankAccount> xx;
     public ArrayList<BankAccount> zz;
+    public ArrayList<BankAccount> yy;
 
     InputManager input = new InputManager();
     Random random = new Random();
@@ -20,12 +21,15 @@ public class AccountManager implements UserOperations {
         this.db = new ArrayList<>();
         this.xx = new ArrayList<>();
         this.zz = new ArrayList<>();
+        this.yy = new ArrayList<>();
 
         System.out.print("\n\n");
         xx.add(new CheckingAccount());
         zz.add(new CheckingAccount());
+        yy.add(new SavingAccount());
         db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", xx));
         db.add(new User(356367, "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", zz));
+        db.add(new User(925767, "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", yy));
 
         for(User user: db){
             System.out.println(user);

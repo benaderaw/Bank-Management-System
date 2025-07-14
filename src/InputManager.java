@@ -185,6 +185,7 @@ public class InputManager {
 
         for (User user : db) {
             if (user.getUsername().equals(stringInput)) {
+                System.out.println("Found: " + user.getUsername());
                 index =  db.indexOf(user);
             }
         }
@@ -198,7 +199,10 @@ public class InputManager {
             System.out.print("Password: ");
             stringInput = scanner.nextLine();
 
-            if(db.get(index).getPassword().equals(stringInput)){
+            String password = db.get(index).getPassword();
+
+            if(password.equals(stringInput)){
+                System.out.println("Found: " + db.get(index).getPassword());
                 return db.get(index);
             }
 

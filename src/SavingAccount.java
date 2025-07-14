@@ -1,15 +1,12 @@
-public class CheckingAccount extends BankAccount{
-    private double dailyWithdrawLimit;
-
-    public CheckingAccount(){
+public class SavingAccount extends BankAccount{
+    public SavingAccount() {
         super();
-        this.dailyWithdrawLimit = 500.00;
     }
 
     //METHODS
     @Override
     public void accountType(){
-        setAccountType("Checking");
+        setAccountType("Saving");
     }
 
     @Override
@@ -18,23 +15,23 @@ public class CheckingAccount extends BankAccount{
     }
 
     @Override
-    public double withdraw(double amount){
+    public double withdraw(double amount) {
         double newBalance = 0;
-        if(getBalance() >= amount && amount <= dailyWithdrawLimit){
-            newBalance =  getBalance() - amount;
+        if (getBalance() >= amount) {
+            newBalance = getBalance() - amount;
         }
         return newBalance;
     }
 
     @Override
-    public void checkTransactions(){
-        for(double transaction: getTransactions()){
+    public void checkTransactions() {
+        for (double transaction : getTransactions()) {
             System.out.println(transaction);
         }
     }
 
     @Override
-    public double checkBalance(){
+    public double checkBalance() {
         return getBalance();
     }
 
@@ -43,10 +40,4 @@ public class CheckingAccount extends BankAccount{
     public String toString() {
         return "accountType: " + getAccountType() + ", balance: " + getBalance();
     }
-
-
-
-
-
-
 }

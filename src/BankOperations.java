@@ -1,11 +1,11 @@
 interface BankOperations {
     // user can
-    void createAccount();
-    void login();
+    void createAccount(String email, String username, String password);
+    void login(String username, String password);
     void checkBalance();
-    void deposit();
-    void withdraw();
+    void deposit(double amount);
+    void withdraw(double amount);
     void checkTransactions();
     void logout();
-    void closeAccount();
+    void closeAccount(String type);
 }

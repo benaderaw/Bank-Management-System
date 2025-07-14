@@ -35,7 +35,7 @@ public class AccountManager {
         // email
         // username
         // password
-        String email = "input.promptLastname();";
+        String email = input.checkUniqueEmail(db);
         String username = "input.promptLastname();";
         String password = "input.promptLastname();";
 

@@ -59,6 +59,47 @@ public class InputManager {
         return intInput;
     }
 
+    // email input and validation
+    public boolean isValidEmail(String email) {
+        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+    }
+
+
+    public String emailValidation(){
+        while (true){
+            System.out.print("Email: ");
+            stringInput = scanner.nextLine().toLowerCase().trim();
+
+            if(isValidEmail(stringInput)){
+                break;
+            }else{
+                System.out.println("🔶Invalid email, try again");
+            }
+        }
+
+        return stringInput;
+    }
+
+    public String checkUniqueEmail(ArrayList<User> db){
+        String email;
+
+        OuterLoop:
+        while (true){
+            email = emailValidation();
+
+            for(User user: db){
+                if(email.equals(user.getEmail())){
+                    System.out.println("🔶Email already exists, try again");
+                    continue OuterLoop;
+                }
+            }
+            break;
+        }
+
+        return email;
+    }
+
+
 
 
 

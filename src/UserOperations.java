@@ -1,6 +1,6 @@
 public interface UserOperations {
     boolean createAccount();
-    boolean login();
+    User login();
     boolean logout();
     void closeAccount(String type);
 }

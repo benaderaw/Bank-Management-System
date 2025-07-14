@@ -8,12 +8,12 @@ public class InputManager {
     Scanner scanner = new Scanner(System.in);
 
     // firstname
-    public String promptFirstname(){
-        while (true){
+    public String promptFirstname() {
+        while (true) {
             System.out.print("First name: ");
             stringInput = scanner.nextLine();
 
-            if(stringInput.isEmpty()){
+            if (stringInput.isEmpty()) {
                 System.out.print("🔶Please provide a first name\n");
                 continue;
             }
@@ -23,12 +23,12 @@ public class InputManager {
     }
 
     // lastname
-    public String  promptLastname(){
-        while (true){
+    public String promptLastname() {
+        while (true) {
             System.out.print("Last name: ");
             stringInput = scanner.nextLine();
 
-            if(stringInput.isEmpty()){
+            if (stringInput.isEmpty()) {
                 System.out.print("🔶Please provide a last name\n");
                 continue;
             }
@@ -38,19 +38,19 @@ public class InputManager {
     }
 
     // firstname
-    public int promptAge(){
-        while (true){
+    public int promptAge() {
+        while (true) {
             System.out.print("Age: ");
 
-            if(scanner.hasNextInt()){
+            if (scanner.hasNextInt()) {
                 intInput = scanner.nextInt();
-                if(intInput < 18){
+                if (intInput < 18) {
                     System.out.println("🔶You must be 18 years or older to create an account\n");
                     continue;
                 }
                 scanner.nextLine();
                 break;
-            }else{
+            } else {
                 scanner.nextLine();
                 System.out.println("🔶Age must be a a whole number");
             }
@@ -65,14 +65,14 @@ public class InputManager {
     }
 
 
-    public String emailValidation(){
-        while (true){
+    public String emailValidation() {
+        while (true) {
             System.out.print("Email: ");
             stringInput = scanner.nextLine().toLowerCase().trim();
 
-            if(isValidEmail(stringInput)){
+            if (isValidEmail(stringInput)) {
                 break;
-            }else{
+            } else {
                 System.out.println("🔶Invalid email, try again");
             }
         }
@@ -80,15 +80,15 @@ public class InputManager {
         return stringInput;
     }
 
-    public String checkUniqueEmail(ArrayList<User> db){
+    public String checkUniqueEmail(ArrayList<User> db) {
         String email;
 
         OuterLoop:
-        while (true){
+        while (true) {
             email = emailValidation();
 
-            for(User user: db){
-                if(email.equals(user.getEmail())){
+            for (User user : db) {
+                if (email.equals(user.getEmail())) {
                     System.out.println("🔶Email already exists, try again");
                     continue OuterLoop;
                 }
@@ -100,15 +100,15 @@ public class InputManager {
     }
 
     // username
-    public String usernameValidation(){
-        while (true){
+    public String usernameValidation() {
+        while (true) {
             System.out.print("Username: ");
             stringInput = scanner.nextLine().trim();
 
-            if(stringInput.isEmpty()){
+            if (stringInput.isEmpty()) {
                 System.out.print("🔶Please provide a username\n");
                 continue;
-            }else if(stringInput.length() < 4){
+            } else if (stringInput.length() < 4) {
                 System.out.print("🔶Username needs to be at lease 4 characters long\n");
                 continue;
             }
@@ -117,15 +117,15 @@ public class InputManager {
         return stringInput;
     }
 
-    public String checkUniqueUsername(ArrayList<User> db){
+    public String checkUniqueUsername(ArrayList<User> db) {
         String username;
 
         OuterLoop:
         while (true) {
             username = usernameValidation();// bob88
 
-            for(User user: db){
-                if(username.equals(user.getUsername())){
+            for (User user : db) {
+                if (username.equals(user.getUsername())) {
                     System.out.println("🔶Username already exists, try a different username");
                     continue OuterLoop;
                 }
@@ -137,7 +137,7 @@ public class InputManager {
     }
 
     // password
-    public String passwordValidation(){
+    public String passwordValidation() {
         while (true) {
             System.out.print("Password: ");
             stringInput = scanner.nextLine().trim();
@@ -155,18 +155,18 @@ public class InputManager {
     }
 
     // account type
-    public String promptAccountType(){
+    public String promptAccountType() {
 
-        while (true){
+        while (true) {
             System.out.println("Which account type would ypu like to open");
             System.out.print("Checking | Saving | Checking and Saving: ");
             stringInput = scanner.nextLine().toLowerCase().trim();
 
-            if(stringInput.isEmpty()){
+            if (stringInput.isEmpty()) {
                 System.out.println("🔶Please choose account type");
-            }else if(stringInput.equals("checking") || stringInput.equals("saving") || stringInput.equals("checking and saving") ){
+            } else if (stringInput.equals("checking") || stringInput.equals("saving") || stringInput.equals("checking and saving")) {
                 break;
-            }else{
+            } else {
                 System.out.println("🔶Please choose account type");
             }
         }
@@ -176,6 +176,39 @@ public class InputManager {
 
 
     // login
+    public int loginUsernameValidation(ArrayList<User> db) {
+        int index = 0;
+
+        System.out.println("Log In");
+        System.out.print("Username: ");
+        stringInput = scanner.nextLine();
+
+        for (User user : db) {
+            if (user.getUsername().equals(stringInput)) {
+                index =  db.indexOf(user);
+            }
+        }
+
+        return index;
+    }
+
+    public User loginValidation(ArrayList<User> db){
+        while (true){
+            int index = loginUsernameValidation(db);
+            System.out.print("Password: ");
+            stringInput = scanner.nextLine();
+
+            if(db.get(index).getPassword().equals(stringInput)){
+                System.out.printf("Welcome back %s, you are now logged in.", db.get(index).getFirstName());
+                return db.get(index);
+            }
+
+            System.out.println("🔶invalid credentials, try again");
+        }
+    }
+
+
+
 
 
 

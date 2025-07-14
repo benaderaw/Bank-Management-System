@@ -15,24 +15,30 @@ public class AccountManager implements UserOperations {
     Random random = new Random();
 
 
-    public AccountManager(){
+    public AccountManager() {
         this.accountCreated = false;
         this.db = new ArrayList<>();
         this.xx = new ArrayList<>();
         this.zz = new ArrayList<>();
-    }
 
-    @Override
-    public boolean createAccount(){
+
         xx.add(new CheckingAccount(250.00));
         zz.add(new CheckingAccount(250.00));
         db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", xx));
         db.add(new User(356367, "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", zz));
 
+        for(User user: db){
+            System.out.println(user);
+        }
 
+    }
+
+    @Override
+    public boolean createAccount(){
         // create ID
         int id = random.nextInt(1, 7265) * 35;
 
+        /*
         // first name
         String firstName = input.promptFirstname();
 
@@ -57,14 +63,10 @@ public class AccountManager implements UserOperations {
         if(account.equals("checking")){
             accountType.add(new CheckingAccount(25.00));
         }
+        */
 
 
-        db.add(new User(id, firstName, lastName, age, email, username, password, accountType));
-
-
-        for(User user: db){
-            System.out.println(user);
-        }
+//        db.add(new User(id, firstName, lastName, age, email, username, password, accountType));
 
         System.out.println("Account created");
         return accountCreated;
@@ -72,9 +74,8 @@ public class AccountManager implements UserOperations {
 
     // login
     @Override
-    public boolean login(){
-
-        return loggedIn;
+    public User login(){
+        return input.loginValidation(db);
     }
 
     // logout

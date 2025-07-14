@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class User {
     public int id;
     private String firstName;
@@ -7,9 +10,10 @@ public class User {
     private String username;
     private String password;
     private double balance;
+    public ArrayList<Object> accountType;
 
 
-    public User(int id, String firstName, String lastName, int age, String email, String username, String password){
+    public User(int id, String firstName, String lastName, int age, String email, String username, String password, ArrayList<Object> accountType){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,6 +22,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.balance = 0;
+        this.accountType = accountType;
     }
 
     public String getEmail(){
@@ -30,6 +35,6 @@ public class User {
     @Override
     public String toString() {
         return "id: " + id + ", firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + ", email: "
-                + email + ", username: " + username + ", password: " + password + ", balance: " + balance;
+                + email + ", username: " + username + ", password: " + password + ", balance: " + balance + ", account type: " + accountType;
     }
 }

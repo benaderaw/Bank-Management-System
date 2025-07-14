@@ -32,6 +32,11 @@ public abstract class BankAccount implements BankOperations {
         }
     }
 
+    @Override
+    public double checkBalance(){
+        return balance;
+    }
+
     // getters and setters
     public double getBalance(){
         return balance;

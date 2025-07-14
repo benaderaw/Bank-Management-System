@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class AccountManager {
+public class AccountManager implements UserOperations {
 
     public boolean accountCreated;
     public boolean loggedIn;
@@ -16,7 +16,7 @@ public class AccountManager {
         this.db = new ArrayList<>();
     }
 
-
+    @Override
     public boolean createAccount(){
         db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002."));
 
@@ -54,16 +54,19 @@ public class AccountManager {
     }
 
     // login
+    @Override
     public boolean login(){
         return loggedIn;
     }
 
-    // logput
+    // logout
+    @Override
     public boolean logout(){
         loggedIn = false;
         return loggedIn;
     }
 
+    @Override
     public void closeAccount(String type){
         switch (type){
             case "checking":

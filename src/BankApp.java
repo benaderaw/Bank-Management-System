@@ -4,5 +4,9 @@ public class BankApp {
 
         System.out.println("Create Account | Login");
 
+        AccountManager ac = new AccountManager();
+
+        ac.createAccount();
+
     }
 }

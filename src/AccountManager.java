@@ -1,32 +1,53 @@
 import java.util.ArrayList;
+import java.util.Random;
 
-public abstract class AccountManager implements BankOperations{
+public class AccountManager {
 
     public boolean accountCreated;
     public boolean loggedIn;
     public boolean loggedOff;
-    public ArrayList<Object> db;
+    public ArrayList<User> db;
+    InputManager input = new InputManager();
+    Random random = new Random();
+
 
     public AccountManager(){
         this.accountCreated = false;
         this.db = new ArrayList<>();
     }
 
-    @Override
-    public boolean createAccount(String email, String username, String password){
 
+    public boolean createAccount(){
+        db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002."));
 
-        // check and validate if email exists
-        if(!db.contains(email) && !db.contains(username) && password.length() > 8){
-            accountCreated = true;
-        }
+        // create ID
+        int id = random.nextInt(1, 7265) * 35;
+
+        // first name
+        String firstName = input.promptFirstname();
+
+        // last name
+        String lastName = input.promptLastname();
+
+        // age
+        int age = input.promptAge();
+
+        // email
+        // username
+        // password
+        String email = "input.promptLastname();";
+        String username = "input.promptLastname();";
+        String password = "input.promptLastname();";
+
 
         db.add(new User(id, firstName, lastName, age, email, username, password));
+
+
+        System.out.print(db);
 
         return accountCreated;
     }
 
-    @Override
     public boolean login(String username, String password){
         if(db.contains(username) && db.contains(password)){
             loggedOff = true;
@@ -35,13 +56,11 @@ public abstract class AccountManager implements BankOperations{
         return loggedOff;
     }
 
-    @Override
     public boolean logout(){
         loggedIn = false;
         return loggedIn;
     }
 
-    @Override
     public void closeAccount(String type){
         switch (type){
             case "checking":

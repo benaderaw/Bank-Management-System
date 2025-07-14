@@ -1,5 +1,5 @@
 public class User {
-    private String id;
+    public int id;
     private String firstName;
     private String lastName;
     private int age;
@@ -8,7 +8,7 @@ public class User {
     private String password;
     private double balance;
 
-    public User(String id, String firstName, String lastName, int age, String email, String username, String password){
+    public User(int id, String firstName, String lastName, int age, String email, String username, String password){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,5 +17,15 @@ public class User {
         this.username = username;
         this.password = password;
         this.balance = 0;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id + ", firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + ", email: "
+                + email + ", username: " + username + ", password: " + password + ", balance: " + balance;
     }
 }

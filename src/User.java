@@ -10,10 +10,10 @@ public class User {
     private String username;
     private String password;
     private double balance;
-    public ArrayList<Object> accountType;
+    public ArrayList<BankAccount> accountType;
 
 
-    public User(int id, String firstName, String lastName, int age, String email, String username, String password, ArrayList<Object> accountType){
+    public User(int id, String firstName, String lastName, int age, String email, String username, String password, ArrayList<BankAccount> accountType){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

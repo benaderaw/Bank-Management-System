@@ -8,8 +8,8 @@ public class AccountManager implements UserOperations {
     public boolean loggedIn;
     public boolean loggedOff;
     public ArrayList<User> db;
-    public ArrayList<Object> xx;
-    public ArrayList<Object> zz;
+    public ArrayList<BankAccount> xx;
+    public ArrayList<BankAccount> zz;
 
     InputManager input = new InputManager();
     Random random = new Random();
@@ -21,9 +21,9 @@ public class AccountManager implements UserOperations {
         this.xx = new ArrayList<>();
         this.zz = new ArrayList<>();
 
-
-        xx.add(new CheckingAccount(250.00));
-        zz.add(new CheckingAccount(250.00));
+        System.out.print("\n\n");
+        xx.add(new CheckingAccount());
+        zz.add(new CheckingAccount());
         db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", xx));
         db.add(new User(356367, "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", zz));
 
@@ -34,7 +34,7 @@ public class AccountManager implements UserOperations {
     }
 
     @Override
-    public boolean createAccount(){
+    public User createAccount(){
         // create ID
         int id = random.nextInt(1, 7265) * 35;
 
@@ -59,7 +59,7 @@ public class AccountManager implements UserOperations {
 
         String account = input.promptAccountType();
 
-        ArrayList<Object> accountType = new ArrayList<>();
+        ArrayList<BankAccount> accountType = new ArrayList<>();
         if(account.equals("checking")){
             accountType.add(new CheckingAccount(25.00));
         }
@@ -69,7 +69,7 @@ public class AccountManager implements UserOperations {
 //        db.add(new User(id, firstName, lastName, age, email, username, password, accountType));
 
         System.out.println("Account created");
-        return accountCreated;
+        return db.get(id);
     }
 
     // login

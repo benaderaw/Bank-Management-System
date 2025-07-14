@@ -46,4 +46,9 @@ public abstract class BankAccount implements BankOperations {
         this.balance = balance;
     }
 
+    public ArrayList<Double> getTransactions(){
+        return transactions;
+    }
+
+
 }

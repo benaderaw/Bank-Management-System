@@ -199,7 +199,6 @@ public class InputManager {
             stringInput = scanner.nextLine();
 
             if(db.get(index).getPassword().equals(stringInput)){
-                System.out.printf("Welcome back %s, you are now logged in.", db.get(index).getFirstName());
                 return db.get(index);
             }
 

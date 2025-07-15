@@ -1,6 +1,9 @@
 public class SavingAccount extends BankAccount{
+    private double interestRate;
+
     public SavingAccount() {
         super();
+        this.interestRate = 3.6;
     }
 
     //METHODS
@@ -11,32 +14,32 @@ public class SavingAccount extends BankAccount{
 
     @Override
     public double deposit(double amount) {
-        return getBalance() + amount;
+        System.out.printf("Depositing %.2f into savings account...\n", amount);
+        return super.deposit(amount);
     }
 
     @Override
     public double withdraw(double amount) {
+        System.out.printf("Withdrawing %.2f from savings account...\n", amount);
         double newBalance = 0;
-        if (getBalance() >= amount) {
+        if (getBalance() >= amount && amount > 0) {
             newBalance = getBalance() - amount;
+            getTransactions().add("-" + amount);
         }
         return newBalance;
     }
 
     @Override
     public void checkTransactions() {
-        for (double transaction : getTransactions()) {
-            System.out.println(transaction);
-        }
+        System.out.println("Loading savings transactions...\n");
+        super.checkTransactions();
+    }
+
+    public double monthlyInterrestPay(){
+        return (getBalance() * (interestRate / 100)) / 12;
     }
 
     @Override
-    public double checkBalance() {
-        return getBalance();
-    }
-
-
-    //    @Override
     public String toString() {
         return "accountType: " + getAccountType() + ", balance: " + getBalance();
     }

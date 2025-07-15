@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
-    private String accountType;
+    public String accountType;
     private double balance;
-    private ArrayList<Double> transactions;
+    private ArrayList<String> transactions;
 
     public BankAccount(){
         this.accountType = "";
@@ -16,29 +16,34 @@ public abstract class BankAccount implements BankOperations {
     public abstract void accountType();
 
     @Override
+    public double checkBalance(){
+        return balance;
+    }
+
+    @Override
     public double deposit(double amount){
-        balance = amount + balance;
+        if(amount > 0){
+            balance = amount + balance;
+            transactions.add("+" + amount);
+        }
+
         return balance;
     }
 
     @Override
     public double withdraw(double amount){
-        if(balance >= amount){
+        if(balance >= amount && amount > 0){
             balance = balance - amount;
+            transactions.add("-" + amount);
         }
         return balance;
     }
 
     @Override
     public void checkTransactions(){
-        for(double transaction: transactions){
+        for(String transaction: transactions){
             System.out.println(transaction);
         }
-    }
-
-    @Override
-    public double checkBalance(){
-        return balance;
     }
 
     // getters and setters
@@ -50,7 +55,7 @@ public abstract class BankAccount implements BankOperations {
         this.balance = balance;
     }
 
-    public ArrayList<Double> getTransactions(){
+    public ArrayList<String> getTransactions(){
         return transactions;
     }
 

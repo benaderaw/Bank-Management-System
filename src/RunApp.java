@@ -34,7 +34,17 @@ public class RunApp {
 
             while (currentUser.id != 0){
                 welcomeDisplay(input);
+                CheckingAccount ca = (CheckingAccount) currentUser.accountType.get(0);
+
+                System.out.println(">>" + ca.getAccountType());
                 System.out.println("Balance: " +currentUser.accountType.get(0).getBalance());
+
+                loggedInMenuDisplay();
+                String action =handleAction();
+
+                if(action.equals("deposit")){
+                    System.out.println("lol");
+                }
 
                 break;
             }
@@ -46,12 +56,35 @@ public class RunApp {
 
     private void welcomeDisplay(String input){
         String welcome = input.equals("c") ? "Welcome " : "Welcome Back ";
-        System.out.println(welcome + currentUser.getFirstName().toUpperCase());
+        System.out.println("\n" + welcome + currentUser.getFirstName().toUpperCase());
     }
 
     private void loggedInMenuDisplay(){
-        System.out.println("MENU: [ DEPOSIT | WITHDRAW | TRANSACTIONS | CLOSE ACCOUNT ]");
+        System.out.println("\nMENU: [ DEPOSIT | WITHDRAW | TRANSACTIONS | LOGOUT | CLOSE ACCOUNT ]");
     }
+
+    private String handleAction(){
+        while (true) {
+            System.out.print("What would you like to do: ");
+            String input = scanner.nextLine().toLowerCase().trim();
+
+            switch (input){
+                case "deposit":
+                case "withdraw":
+                case "transaction":
+                case "logout":
+                case "close account":
+                    break;
+                default:
+                    System.out.println("🔶Please choose an action");
+                    continue;
+            }
+
+            return input;
+        }
+    }
+
+
 
 
 

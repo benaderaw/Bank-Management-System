@@ -24,8 +24,8 @@ public class AccountManager implements UserOperations {
         this.yy = new ArrayList<>();
 
         System.out.print("\n\n");
-        xx.add(new CheckingAccount());
-        zz.add(new CheckingAccount());
+        xx.add(new CheckingAccount(25));
+        zz.add(new CheckingAccount(35));
         yy.add(new SavingAccount());
         db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", xx));
         db.add(new User(356367, "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", zz));

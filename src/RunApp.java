@@ -3,12 +3,12 @@ import java.util.Scanner;
 
 public class RunApp {
     private User currentUser;
-    private BankAccount checkingAccount;
-    private BankAccount savingsAccount;
+    private BankAccount selectedAccount;
 
 
     public RunApp(){
         this.currentUser = new User("", "", "", 0, "", "", "", false, new ArrayList<>());
+        selectedAccount = null;
     }
 
     AccountManager accountManager = new AccountManager();
@@ -34,32 +34,21 @@ public class RunApp {
             }
 
             //
-            for(BankAccount account:  currentUser.getAccounts()){
-                String accountType = account.getAccountType();
-
-                if(accountType.equals("savings")){
-                    savingsAccount = new SavingAccount();
-                }
-
-                if(accountType.equals("checking")) {
-                    checkingAccount = new CheckingAccount();
-                }
-            }
-
-            BankAccount account = new CheckingAccount();
-
             while (currentUser.isActive()){
                 welcomeDisplay(input);
-                System.out.println("Account Type: " + currentUser.getAccounts().getFirst().getAccountType());
-                System.out.println("Balance: " + currentUser.getAccounts().getFirst().getBalance());
+                for(BankAccount account: currentUser.getAccounts()){
+                    System.out.println("Account Type: " + account.getAccountType());
+                    System.out.println("Balance: " + account.getBalance());
+                    System.out.print("\n");
+                }
 
                 loggedInMenuDisplay();
                 String action = handleAction(scanner);
 
-
-
                 // deposit
                 if(action.equals("deposit")){
+                    selectedAccount = selectAccount(scanner);
+
                     double amount;
                     while (true){
                         System.out.print("How much would you like to deposit: ");
@@ -74,12 +63,13 @@ public class RunApp {
                         }
                     }
 
-                    double newBalance = account.deposit(amount);
-                    currentUser.getAccounts().getFirst().setBalance(newBalance);
+                   selectedAccount.deposit(amount);
                 }
 
                 // withdraw
                 if(action.equals("withdraw")){
+                    selectedAccount = selectAccount(scanner);
+
                     double amount;
                     while (true){
                         System.out.print("Withdrawal amount: ");
@@ -94,14 +84,12 @@ public class RunApp {
                         }
                     }
 
-                    double newBalance = account.withdraw(amount);
-                    currentUser.getAccounts().getFirst().setBalance(newBalance);
+                    selectedAccount.withdraw(amount);
                 }
 
                 // logout
                 if(action.equals("logout") || action.equals("log out")){
                     accountManager.logout(currentUser);
-                    break;
                 }
             }
         }
@@ -139,6 +127,36 @@ public class RunApp {
         }
     }
 
+
+    private BankAccount selectAccount(Scanner scanner){
+        selectedAccount = currentUser.getAccounts().getFirst();
+
+        if(currentUser.getAccounts().size() > 1) {
+            for (BankAccount account : currentUser.getAccounts()) {
+                System.out.println("- " + account.getAccountType());
+            }
+
+            while (true) {
+                System.out.print("Select account: ");
+                String input = scanner.nextLine().toLowerCase().trim();
+
+                if(input.equals("checking") || input.equals("savings")){
+                    for (BankAccount account : currentUser.getAccounts()) {
+                        if (account.getAccountType().equalsIgnoreCase(input)) {
+                            selectedAccount = account;
+                            break;
+                        }
+                    }
+                    break;
+                }else {
+                    System.out.println("🔶Please select an account");
+                    System.out.println("💡make sure to include the last 's' in 'savings'");
+                }
+            }
+        }
+
+        return selectedAccount;
+    }
 
 
 

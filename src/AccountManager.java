@@ -26,7 +26,7 @@ public class AccountManager implements UserOperations {
 
         System.out.print("\n\n");
         xx.add(new CheckingAccount());
-        zz.add(new CheckingAccount());
+        xx.add(new SavingAccount());
         yy.add(new SavingAccount());
         db.add(new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false, xx));
         db.add(new User(UUID.randomUUID().toString(), "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", false, zz));

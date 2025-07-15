@@ -41,6 +41,6 @@ public class User {
     @Override
     public String toString() {
         return "id: " + id + ", firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + ", email: "
-                + email + ", username: " + username + ", password: " + password + ", balance: " + balance + ", account type: " + accountType;
+                + email + ", username: " + username + ", password: " + password + ", balance: " + balance + ", accounts: " + accountType;
     }
 }

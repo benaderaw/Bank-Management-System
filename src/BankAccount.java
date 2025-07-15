@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
-    public String accountType;
+    private String accountType;
     private double balance;
     private ArrayList<String> transactions;
 

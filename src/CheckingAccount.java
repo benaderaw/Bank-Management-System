@@ -4,7 +4,7 @@ public class CheckingAccount extends BankAccount{
 
     public CheckingAccount(double openingMinimum){
         super();
-        this.setAccountType("Checking");
+        this.accountType();
         this.dailyWithdrawLimit = 500.00;
         this.openingMinimum = deposit(openingMinimum);
     }

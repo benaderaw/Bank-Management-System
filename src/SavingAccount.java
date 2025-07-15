@@ -3,13 +3,14 @@ public class SavingAccount extends BankAccount{
 
     public SavingAccount() {
         super();
+        this.accountType();
         this.interestRate = 3.6;
     }
 
     //METHODS
     @Override
     public void accountType(){
-        setAccountType("Saving");
+        setAccountType("Savings");
     }
 
     @Override
@@ -36,7 +37,7 @@ public class SavingAccount extends BankAccount{
     }
 
     public double monthlyInterrestPay(){
-        return (getBalance() * (interestRate / 100)) / 12;
+        return (double) Math.round((getBalance() * (interestRate / 100)/ 12) * 100)/100;
     }
 
     @Override

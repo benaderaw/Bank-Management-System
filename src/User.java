@@ -2,18 +2,19 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User {
-    public int id;
+    private String id;
     private String firstName;
     private String lastName;
     private int age;
     private String email;
     private String username;
     private String password;
-    private double balance;
-    public ArrayList<BankAccount> accountType;
+    private boolean active;
+    private ArrayList<BankAccount> accountType;
 
 
-    public User(int id, String firstName, String lastName, int age, String email, String username, String password, ArrayList<BankAccount> accountType){
+    public User(String id, String firstName, String lastName, int age, String email, String username, String password, boolean active,
+                ArrayList<BankAccount> accountType){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,10 +22,20 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.balance = 0;
+        this.active = false;
         this.accountType = accountType;
     }
 
+    // getter
+    public String getId(){
+        return id;
+    }
+    public String getFirstName(){
+        return firstName;
+    }
+    public String getLastName(){
+        return lastName;
+    }
     public String getEmail(){
         return email;
     }
@@ -34,13 +45,22 @@ public class User {
     public String getPassword(){
         return password;
     }
-    public String getFirstName(){
-        return firstName;
+    public boolean isActive(){
+        return active;
     }
+    public ArrayList<BankAccount> getAccountType(){
+        return accountType;
+    }
+
+    // setter
+    public void setActive(boolean active){
+        this.active = active;
+    }
+
 
     @Override
     public String toString() {
         return "id: " + id + ", firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + ", email: "
-                + email + ", username: " + username + ", password: " + password + ", balance: " + balance + ", accounts: " + accountType;
+                + email + ", username: " + username + ", password: " + password + ", active: " + active + ", accounts: " + accountType;
     }
 }

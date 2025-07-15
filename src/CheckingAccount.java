@@ -1,20 +1,13 @@
 public class CheckingAccount extends BankAccount{
     private double dailyWithdrawLimit;
-    private double openingMinimum;
 
-    public CheckingAccount(double openingMinimum){
+    public CheckingAccount(){
         super();
-        this.accountType();
+        this.setAccountType("checking");
         this.dailyWithdrawLimit = 500.00;
-        this.openingMinimum = deposit(openingMinimum);
     }
 
     //METHODS
-    @Override
-    public void accountType(){
-        setAccountType("Checking");
-    }
-
     @Override
     public double deposit(double amount){
         System.out.printf("Depositing %.2f into checking account...\n", amount);

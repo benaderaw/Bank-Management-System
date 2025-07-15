@@ -3,16 +3,11 @@ public class SavingAccount extends BankAccount{
 
     public SavingAccount() {
         super();
-        this.accountType();
+        this.setAccountType("savings");
         this.interestRate = 3.6;
     }
 
     //METHODS
-    @Override
-    public void accountType(){
-        setAccountType("Savings");
-    }
-
     @Override
     public double deposit(double amount) {
         System.out.printf("Depositing %.2f into savings account...\n", amount);

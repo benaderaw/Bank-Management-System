@@ -155,8 +155,7 @@ public class InputManager {
     }
 
     // account type
-    public String promptAccountType() {
-
+    public String promptNewAccountType() {
         while (true) {
             System.out.println("Which account type would ypu like to open");
             System.out.print("Checking | Saving | Checking and Saving: ");
@@ -164,7 +163,7 @@ public class InputManager {
 
             if (stringInput.isEmpty()) {
                 System.out.println("🔶Please choose account type");
-            } else if (stringInput.equals("checking") || stringInput.equals("saving") || stringInput.equals("checking and saving")) {
+            } else if (stringInput.equals("checking") || stringInput.equals("savings") || stringInput.equals("saving") || stringInput.equals("checking and savings") || stringInput.equals("checking and saving")) {
                 break;
             } else {
                 System.out.println("🔶Please choose account type");
@@ -185,42 +184,30 @@ public class InputManager {
 
         for (User user : db) {
             if (user.getUsername().equals(stringInput)) {
-                System.out.println("Found: " + user.getUsername());
-                index =  db.indexOf(user);
+                index = db.indexOf(user);
             }
         }
 
         return index;
     }
 
-    public User loginValidation(ArrayList<User> db){
-        while (true){
+    public User loginValidation(ArrayList<User> db) {
+        while (true) {
             int index = loginUsernameValidation(db);
             System.out.print("Password: ");
             stringInput = scanner.nextLine();
 
             String password = db.get(index).getPassword();
 
-            if(password.equals(stringInput)){
-                System.out.println("Found: " + db.get(index).getPassword());
+            if (password.equals(stringInput)) {
+                System.out.println("Logging in...");
+                db.get(index).setActive(true);
                 return db.get(index);
             }
 
             System.out.println("🔶invalid credentials, try again");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

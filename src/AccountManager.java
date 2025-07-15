@@ -1,6 +1,7 @@
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 public class AccountManager implements UserOperations {
 
@@ -24,12 +25,12 @@ public class AccountManager implements UserOperations {
         this.yy = new ArrayList<>();
 
         System.out.print("\n\n");
-        xx.add(new CheckingAccount(25));
-        zz.add(new CheckingAccount(35));
+        xx.add(new CheckingAccount());
+        zz.add(new CheckingAccount());
         yy.add(new SavingAccount());
-        db.add(new User(1234, "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", xx));
-        db.add(new User(356367, "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", zz));
-        db.add(new User(925767, "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", yy));
+        db.add(new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false, xx));
+        db.add(new User(UUID.randomUUID().toString(), "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", false, zz));
+        db.add(new User(UUID.randomUUID().toString(), "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", false, yy));
 
         for(User user: db){
             System.out.println(user);
@@ -40,9 +41,8 @@ public class AccountManager implements UserOperations {
     @Override
     public User createAccount(){
         // create ID
-        int id = random.nextInt(1, 7265) * 35;
+        String id = UUID.randomUUID().toString();
 
-        /*
         // first name
         String firstName = input.promptFirstname();
 
@@ -61,19 +61,34 @@ public class AccountManager implements UserOperations {
         // password
         String password = input.passwordValidation();
 
-        String account = input.promptAccountType();
+        // active
+        boolean active = true;
+
+        String newAccountType = input.promptNewAccountType();
 
         ArrayList<BankAccount> accountType = new ArrayList<>();
-        if(account.equals("checking")){
-            accountType.add(new CheckingAccount(25.00));
+        if(newAccountType.equals("checking")){
+            accountType.add(new CheckingAccount());
         }
-        */
 
+        if(newAccountType.equals("savings") || newAccountType.equals("saving")){
+            accountType.add(new SavingAccount());
+        }
 
-//        db.add(new User(id, firstName, lastName, age, email, username, password, accountType));
+        if(newAccountType.equals("checking and savings") || newAccountType.equals("checking and saving")){
+            accountType.add(new CheckingAccount());
+            accountType.add(new SavingAccount());
+        }
+
+        // add new user and account to database
+        db.add(new User(id, firstName, lastName, age, email, username, password, active, accountType));
 
         System.out.println("Account created");
-        return db.get(id);
+        for(User user: db){
+            System.out.println(user);
+        }
+
+        return db.getLast();
     }
 
     // login
@@ -84,9 +99,9 @@ public class AccountManager implements UserOperations {
 
     // logout
     @Override
-    public boolean logout(){
-        loggedIn = false;
-        return loggedIn;
+    public void logout(User currentUser){
+        System.out.println("Logging out...");
+        currentUser.setActive(false);
     }
 
     @Override

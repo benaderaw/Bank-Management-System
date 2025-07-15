@@ -4,19 +4,17 @@ import java.util.Scanner;
 public class RunApp {
     private User currentUser;
 
-
-
-
     public RunApp(){
-        this.currentUser = new User(0, "", "", 0, "", "", "", new ArrayList<>());
+        this.currentUser = new User("", "", "", 0, "", "", "", false, new ArrayList<>());
     }
 
-    Scanner scanner = new Scanner(System.in);
     AccountManager accountManager = new AccountManager();
 
     BankAccount account = new SavingAccount();
 
     public void start(){
+        Scanner scanner = new Scanner(System.in);
+
         while (true) {
             System.out.println("\n\n===== Welcome to Blue Everest Bank =====");
             System.out.println("MENU: [ CREATE ACCOUNT | LOGIN ]");
@@ -34,9 +32,10 @@ public class RunApp {
                 currentUser = accountManager.login();
             }
 
-            while (currentUser.id != 0){
+            while (currentUser.isActive()){
                 welcomeDisplay(input);
-                System.out.println("Account Type: " + currentUser.accountType.getFirst().getAccountType());
+                System.out.println("Account Type: " + currentUser.getAccountType().getFirst().getAccountType());
+                System.out.println("Balance: " + currentUser.getAccountType().getFirst().getBalance());
 
 //                BankAccount account = new CheckingAccount(25);
 //                if(currentUser.accountType.getFirst().getAccountType().equalsIgnoreCase("checking")){
@@ -47,9 +46,9 @@ public class RunApp {
 
 
                 loggedInMenuDisplay();
-                String action = handleAction();
+                String action = handleAction(scanner);
 
-                //
+                // deposit
                 if(action.equals("deposit")){
                     double amount;
                     while (true){
@@ -66,15 +65,15 @@ public class RunApp {
                     }
 
                     double newBalance = account.deposit(amount);
-                    currentUser.accountType.getFirst().setBalance(newBalance);
-                    System.out.println("Account Type: " + currentUser);
-                    System.out.println("Account Type: " + accountManager.yy);
+                    currentUser.getAccountType().getFirst().setBalance(newBalance);
                 }
 
-                break;
+                // logout
+                if(action.equals("logout") || action.equals("log out")){
+                    accountManager.logout(currentUser);
+                    break;
+                }
             }
-
-
         }
     }
 
@@ -88,7 +87,7 @@ public class RunApp {
         System.out.println("\nMENU: [ DEPOSIT | WITHDRAW | TRANSACTIONS | LOGOUT | CLOSE ACCOUNT ]");
     }
 
-    private String handleAction(){
+    private String handleAction(Scanner scanner){
         while (true) {
             System.out.print("What would you like to do: ");
             String input = scanner.nextLine().toLowerCase().trim();

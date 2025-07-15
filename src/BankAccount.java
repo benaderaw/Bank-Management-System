@@ -13,8 +13,6 @@ public abstract class BankAccount implements BankOperations {
     }
 
     // METHODS
-    public abstract void accountType();
-
     @Override
     public double checkBalance(){
         return balance;

@@ -17,12 +17,13 @@ public class CheckingAccount extends BankAccount{
     @Override
     public double withdraw(double amount){
         System.out.printf("Withdrawing %.2f from checking account...\n", amount);
-        double newBalance = 0;
         if(getBalance() >= amount && amount <= dailyWithdrawLimit && amount > 0){
-            newBalance =  getBalance() - amount;
+            setBalance(getBalance() - amount);
             getTransactions().add("-" + amount);
+        }else{
+            System.out.println("🔶insufficient funds");
         }
-        return newBalance;
+        return getBalance();
     }
 
     @Override

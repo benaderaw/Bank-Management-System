@@ -68,6 +68,26 @@ public class RunApp {
                     currentUser.getAccountType().getFirst().setBalance(newBalance);
                 }
 
+                // withdraw
+                if(action.equals("withdraw")){
+                    double amount;
+                    while (true){
+                        System.out.print("Withdrawal amount: ");
+
+                        if(scanner.hasNextDouble()){
+                            amount = scanner.nextDouble();
+                            scanner.nextLine();
+                            break;
+                        }else{
+                            scanner.nextLine();
+                            System.out.println("🔶Please type a valid number");
+                        }
+                    }
+
+                    double newBalance = account.withdraw(amount);
+                    currentUser.getAccountType().getFirst().setBalance(newBalance);
+                }
+
                 // logout
                 if(action.equals("logout") || action.equals("log out")){
                     accountManager.logout(currentUser);

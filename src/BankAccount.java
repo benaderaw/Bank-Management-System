@@ -8,7 +8,7 @@ public abstract class BankAccount implements BankOperations {
 
     public BankAccount(){
         this.accountType = "";
-        this.balance = 0;
+        this.balance = 100;
         this.transactions = new ArrayList<>();
     }
 

@@ -10,7 +10,7 @@ public class User {
     private String username;
     private String password;
     private boolean active;
-    private ArrayList<BankAccount> accountType;
+    private ArrayList<BankAccount> accounts;
 
 
     public User(String id, String firstName, String lastName, int age, String email, String username, String password, boolean active,
@@ -23,7 +23,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.active = false;
-        this.accountType = accountType;
+        this.accounts = accountType;
     }
 
     // getter
@@ -48,8 +48,8 @@ public class User {
     public boolean isActive(){
         return active;
     }
-    public ArrayList<BankAccount> getAccountType(){
-        return accountType;
+    public ArrayList<BankAccount> getAccounts(){
+        return accounts;
     }
 
     // setter
@@ -61,6 +61,6 @@ public class User {
     @Override
     public String toString() {
         return "id: " + id + ", firstName: " + firstName + ", lastName: " + lastName + ", age: " + age + ", email: "
-                + email + ", username: " + username + ", password: " + password + ", active: " + active + ", accounts: " + accountType;
+                + email + ", username: " + username + ", password: " + password + ", active: " + active + ", accounts: " + accounts;
     }
 }

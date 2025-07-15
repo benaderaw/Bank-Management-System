@@ -3,14 +3,15 @@ import java.util.Scanner;
 
 public class RunApp {
     private User currentUser;
+    private BankAccount checkingAccount;
+    private BankAccount savingsAccount;
+
 
     public RunApp(){
         this.currentUser = new User("", "", "", 0, "", "", "", false, new ArrayList<>());
     }
 
     AccountManager accountManager = new AccountManager();
-
-    BankAccount account = new SavingAccount();
 
     public void start(){
         Scanner scanner = new Scanner(System.in);
@@ -32,21 +33,30 @@ public class RunApp {
                 currentUser = accountManager.login();
             }
 
+            //
+            for(BankAccount account:  currentUser.getAccounts()){
+                String accountType = account.getAccountType();
+
+                if(accountType.equals("savings")){
+                    savingsAccount = new SavingAccount();
+                }
+
+                if(accountType.equals("checking")) {
+                    checkingAccount = new CheckingAccount();
+                }
+            }
+
+            BankAccount account = new CheckingAccount();
+
             while (currentUser.isActive()){
                 welcomeDisplay(input);
-                System.out.println("Account Type: " + currentUser.getAccountType().getFirst().getAccountType());
-                System.out.println("Balance: " + currentUser.getAccountType().getFirst().getBalance());
-
-//                BankAccount account = new CheckingAccount(25);
-//                if(currentUser.accountType.getFirst().getAccountType().equalsIgnoreCase("checking")){
-//                    account = new CheckingAccount(70);
-//                } else if (currentUser.accountType.getFirst().getAccountType().equalsIgnoreCase("savings")) {
-//                    account = new SavingAccount();
-//                }
-
+                System.out.println("Account Type: " + currentUser.getAccounts().getFirst().getAccountType());
+                System.out.println("Balance: " + currentUser.getAccounts().getFirst().getBalance());
 
                 loggedInMenuDisplay();
                 String action = handleAction(scanner);
+
+
 
                 // deposit
                 if(action.equals("deposit")){
@@ -65,7 +75,7 @@ public class RunApp {
                     }
 
                     double newBalance = account.deposit(amount);
-                    currentUser.getAccountType().getFirst().setBalance(newBalance);
+                    currentUser.getAccounts().getFirst().setBalance(newBalance);
                 }
 
                 // withdraw
@@ -85,7 +95,7 @@ public class RunApp {
                     }
 
                     double newBalance = account.withdraw(amount);
-                    currentUser.getAccountType().getFirst().setBalance(newBalance);
+                    currentUser.getAccounts().getFirst().setBalance(newBalance);
                 }
 
                 // logout
@@ -98,6 +108,7 @@ public class RunApp {
     }
 
 
+    // HELPER METHODS
     private void welcomeDisplay(String input){
         String welcome = input.equals("c") ? "Welcome " : "Welcome Back ";
         System.out.println("\n" + welcome + currentUser.getFirstName().toUpperCase());

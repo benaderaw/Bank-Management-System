@@ -17,12 +17,16 @@ public class SavingAccount extends BankAccount{
     @Override
     public double withdraw(double amount) {
         System.out.printf("Withdrawing %.2f from savings account...\n", amount);
-        if (getBalance() >= amount && amount > 0) {
+
+        if(amount <= 0){
+            System.out.println("🔶Withdraw amount must be greater then 0");
+        }else if(amount > getBalance()){
+            System.out.println("🔶insufficient funds");
+        }else{
             setBalance(getBalance() - amount);
             getTransactions().add("-" + amount);
-        }else{
-            System.out.println("🔶insufficient funds");
         }
+
         return getBalance();
     }
 

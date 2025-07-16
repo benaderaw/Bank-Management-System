@@ -2,5 +2,5 @@ public interface UserOperations {
     User createAccount();
     User login();
     void logout(User currentUser);
-    void closeAccount(String type);
+    void closeAccount(User currentUser);
 }

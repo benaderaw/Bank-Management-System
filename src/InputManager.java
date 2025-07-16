@@ -248,5 +248,28 @@ public class InputManager {
         return amount;
     }
 
+    // close account
+    public String promptCloseAccount(double balance){
+        String input = "";
+        if(balance > 0){
+            System.out.println("🔶Please make sure your have no balance before closing account");
+        }else {
+            System.out.println("We are sad to see you go, but it was out pleasure to serve you!");
+            while (true){
+                System.out.print("Please type 'CLOSE ACCOUNT' to confirm account closure: ");
+                input = scanner.nextLine().trim();
+
+                if(input.equals("CLOSE ACCOUNT")){
+                    break;
+                }else{
+                    System.out.println("🔶Type 'CLOSE ACCOUNT' to confirm");
+                    System.out.println("💡'CLOSE ACCOUNT' must be types exactly as it appears");
+                }
+            }
+        }
+
+        return input;
+    }
+
 
 }

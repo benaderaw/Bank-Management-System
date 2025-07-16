@@ -68,9 +68,28 @@ public class RunApp {
                     selectedAccount.viewTransactions();
                 }
 
+                // close accounts
+                if(action.equals("close account")){
+                    double balance = 0;
+                    for (BankAccount account : currentUser.getAccounts()) {
+                        balance = balance + account.getBalance();
+                    }
+
+                    input = inputManager.promptCloseAccount(balance);
+
+                    if(input.equals("CLOSE ACCOUNT")) {
+                        accountManager.closeAccount(currentUser);
+                    }
+
+                }
+
                 // logout
                 if(action.equals("logout") || action.equals("log out")){
                     accountManager.logout(currentUser);
+                }
+
+                for(User user: accountManager.db){
+                    System.out.println(user);
                 }
             }
         }
@@ -95,7 +114,7 @@ public class RunApp {
             switch (input){
                 case "deposit":
                 case "withdraw":
-                case "transaction":
+                case "transactions":
                 case "view transactions":
                 case "logout":
                 case "log out":

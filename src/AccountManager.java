@@ -105,20 +105,10 @@ public class AccountManager implements UserOperations {
     }
 
     @Override
-    public void closeAccount(String type){
-        switch (type){
-            case "checking":
-                db.remove("checking");
-                break;
-            case "saving":
-                db.remove("saving");
-                break;
-            case "all":
-                db.remove("checking");
-                db.remove("saving");
-                break;
-            default:
-                System.out.println("Please select the type of account you want to close.");
-        }
+    public void closeAccount(User currentUser){
+        System.out.println("Processing account closer...");
+        System.out.println("Account closed");
+        currentUser.setActive(false);
+        db.remove(currentUser);
     }
 }

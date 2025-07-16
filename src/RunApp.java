@@ -3,12 +3,12 @@ import java.util.Scanner;
 
 public class RunApp {
     private User currentUser;
-    private BankAccount selectedAccount;
+
+    InputManager inputManager = new InputManager();
 
 
     public RunApp(){
         this.currentUser = new User("", "", "", 0, "", "", "", false, new ArrayList<>());
-        selectedAccount = null;
     }
 
     AccountManager accountManager = new AccountManager();
@@ -47,42 +47,16 @@ public class RunApp {
 
                 // deposit
                 if(action.equals("deposit")){
-                    selectedAccount = selectAccount(scanner);
+                    BankAccount selectedAccount = selectAccount(scanner);
+                    double amount = inputManager.promptDepositAmount();
 
-                    double amount;
-                    while (true){
-                        System.out.print("How much would you like to deposit: ");
-
-                        if(scanner.hasNextDouble()){
-                            amount = scanner.nextDouble();
-                            scanner.nextLine();
-                            break;
-                        }else{
-                            scanner.nextLine();
-                            System.out.println("🔶Please type a valid number");
-                        }
-                    }
-
-                   selectedAccount.deposit(amount);
+                    selectedAccount.deposit(amount);
                 }
 
                 // withdraw
                 if(action.equals("withdraw")){
-                    selectedAccount = selectAccount(scanner);
-
-                    double amount;
-                    while (true){
-                        System.out.print("Withdrawal amount: ");
-
-                        if(scanner.hasNextDouble()){
-                            amount = scanner.nextDouble();
-                            scanner.nextLine();
-                            break;
-                        }else{
-                            scanner.nextLine();
-                            System.out.println("🔶Please type a valid number");
-                        }
-                    }
+                    BankAccount selectedAccount = selectAccount(scanner);
+                    double amount = inputManager.promptWithdrawAmount();
 
                     selectedAccount.withdraw(amount);
                 }
@@ -127,9 +101,8 @@ public class RunApp {
         }
     }
 
-
     private BankAccount selectAccount(Scanner scanner){
-        selectedAccount = currentUser.getAccounts().getFirst();
+        BankAccount selectedAccount = currentUser.getAccounts().getFirst();
 
         if(currentUser.getAccounts().size() > 1) {
             for (BankAccount account : currentUser.getAccounts()) {

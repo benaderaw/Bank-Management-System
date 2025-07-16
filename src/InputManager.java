@@ -209,5 +209,44 @@ public class InputManager {
         }
     }
 
+    // deposit
+    public double promptDepositAmount(){
+        double amount;
+
+        while (true){
+            System.out.print("How much would you like to deposit: ");
+
+            if(scanner.hasNextDouble()){
+                amount = scanner.nextDouble();
+                scanner.nextLine();
+                break;
+            }else{
+                scanner.nextLine();
+                System.out.println("🔶Please type a valid number");
+            }
+        }
+
+        return amount;
+    }
+
+    // withdraw
+    public double promptWithdrawAmount(){
+        double amount;
+        while (true){
+            System.out.print("Withdrawal amount: ");
+
+            if(scanner.hasNextDouble()){
+                amount = scanner.nextDouble();
+                scanner.nextLine();
+                break;
+            }else{
+                scanner.nextLine();
+                System.out.println("🔶Please type a valid number");
+            }
+        }
+
+        return amount;
+    }
+
 
 }

@@ -61,6 +61,13 @@ public class RunApp {
                     selectedAccount.withdraw(amount);
                 }
 
+                // transactions
+                if(action.equals("transactions") || action.equals("view transactions")){
+                    BankAccount selectedAccount = selectAccount(scanner);
+
+                    selectedAccount.viewTransactions();
+                }
+
                 // logout
                 if(action.equals("logout") || action.equals("log out")){
                     accountManager.logout(currentUser);
@@ -77,7 +84,7 @@ public class RunApp {
     }
 
     private void loggedInMenuDisplay(){
-        System.out.println("\nMENU: [ DEPOSIT | WITHDRAW | TRANSACTIONS | LOGOUT | CLOSE ACCOUNT ]");
+        System.out.println("\nMENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | LOGOUT | CLOSE ACCOUNT ]");
     }
 
     private String handleAction(Scanner scanner){
@@ -89,7 +96,9 @@ public class RunApp {
                 case "deposit":
                 case "withdraw":
                 case "transaction":
+                case "view transactions":
                 case "logout":
+                case "log out":
                 case "close account":
                     break;
                 default:

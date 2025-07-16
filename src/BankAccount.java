@@ -38,9 +38,10 @@ public abstract class BankAccount implements BankOperations {
     }
 
     @Override
-    public void checkTransactions(){
+    public void viewTransactions(){
         for(String transaction: transactions){
-            System.out.println(transaction);
+            String action = transaction.startsWith("+") ? "Deposit" : "Withdraw";
+            System.out.printf("%s\t\t%s\n", action, transaction);
         }
     }
 

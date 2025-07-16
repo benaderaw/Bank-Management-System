@@ -39,9 +39,9 @@ public class CheckingAccount extends BankAccount{
     }
 
     @Override
-    public void checkTransactions(){
+    public void viewTransactions(){
         System.out.println("Loading checking transactions...\n");
-        super.checkTransactions();
+        super.viewTransactions();
     }
 
 

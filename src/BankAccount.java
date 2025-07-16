@@ -1,15 +1,22 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
     private String accountType;
     private double balance;
     private ArrayList<Double> transactions;
+    private long accountNumber;
+    private long routingNumber;
+
+    Random random = new Random();
 
     public BankAccount(){
         this.accountType = "";
         this.balance = 0;
         this.transactions = new ArrayList<>();
+        this.accountNumber = random.nextLong(100000000000L, 999999999999L);
+        this.routingNumber = random.nextLong(100000000, 999999999);
     }
 
     // METHODS
@@ -72,5 +79,19 @@ public abstract class BankAccount implements BankOperations {
         this.accountType = accountType;
     }
 
+    public long getAccountNumber(){
+        return accountNumber;
+    }
 
+    public void setAccountNumber(long accountNumber){
+        this.accountNumber = accountNumber;
+    }
+
+    public long getRoutingNumber(){
+        return routingNumber;
+    }
+
+    public void setRoutingNumber(long routingNumber){
+        this.routingNumber = routingNumber;
+    }
 }

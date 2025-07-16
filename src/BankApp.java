@@ -6,6 +6,5 @@ public class BankApp {
         RunApp runApp = new RunApp();
 
         runApp.start();
-
     }
 }

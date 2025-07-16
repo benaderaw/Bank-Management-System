@@ -4,7 +4,7 @@ public class SavingAccount extends BankAccount{
     public SavingAccount() {
         super();
         this.setAccountType("savings");
-        this.setBalance(0);
+        this.setBalance(35);
         this.interestRate = 3.6;
     }
 

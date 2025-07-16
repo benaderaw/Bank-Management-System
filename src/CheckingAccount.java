@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class CheckingAccount extends BankAccount{
     private double dailyWithdrawLimit;
     private double dailyWithdrawLimitTracker;
@@ -8,7 +10,10 @@ public class CheckingAccount extends BankAccount{
         this.setBalance(350);
         this.dailyWithdrawLimit = 500.00;
         this.dailyWithdrawLimitTracker = 0;
+
     }
+
+
 
     //METHODS
     @Override

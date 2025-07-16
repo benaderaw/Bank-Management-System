@@ -253,6 +253,7 @@ public class InputManager {
         String input = "";
         if(balance > 0){
             System.out.println("🔶Please make sure your have no balance before closing account");
+            return "ABORT";
         }else {
             System.out.println("We are sad to see you go, but it was out pleasure to serve you!");
             while (true){

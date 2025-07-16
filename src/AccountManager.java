@@ -1,38 +1,30 @@
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
 
 public class AccountManager implements UserOperations {
 
-    public boolean accountCreated;
-    public boolean loggedIn;
-    public boolean loggedOff;
-    public ArrayList<User> db;
+    DB db = new DB();
     public ArrayList<BankAccount> xx;
     public ArrayList<BankAccount> zz;
     public ArrayList<BankAccount> yy;
 
     InputManager input = new InputManager();
-    Random random = new Random();
 
-
+    // CONSTRUCTOR
     public AccountManager() {
-        this.accountCreated = false;
-        this.db = new ArrayList<>();
-        this.xx = new ArrayList<>();
-        this.zz = new ArrayList<>();
-        this.yy = new ArrayList<>();
-
         System.out.print("\n\n");
-        xx.add(new CheckingAccount());
-        xx.add(new SavingAccount());
-        yy.add(new SavingAccount());
-        db.add(new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false, xx));
-        db.add(new User(UUID.randomUUID().toString(), "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", false, zz));
-        db.add(new User(UUID.randomUUID().toString(), "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", false, yy));
+        this.xx = new ArrayList<>();
+        this.yy = new ArrayList<>();
+        this.zz = new ArrayList<>();
+        this.xx.add(new CheckingAccount());
+        this.xx.add(new SavingAccount());
+        this.yy.add(new SavingAccount());
+        this.zz.add(new SavingAccount());
+        this.db.getDb().add(new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false, xx));
+        this.db.getDb().add(new User(UUID.randomUUID().toString(), "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", false, zz));
+        this.db.getDb().add(new User(UUID.randomUUID().toString(), "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", false, yy));
 
-        for(User user: db){
+        for(User user: db.getDb()){
             System.out.println(user);
         }
 
@@ -53,10 +45,10 @@ public class AccountManager implements UserOperations {
         int age = input.promptAge();
 
         // email
-        String email = input.checkUniqueEmail(db);
+        String email = input.checkUniqueEmail(db.getDb());
 
         // username
-        String username = input.checkUniqueUsername(db);
+        String username = input.checkUniqueUsername(db.getDb());
 
         // password
         String password = input.passwordValidation();
@@ -81,20 +73,20 @@ public class AccountManager implements UserOperations {
         }
 
         // add new user and account to database
-        db.add(new User(id, firstName, lastName, age, email, username, password, active, accountType));
+        db.getDb().add(new User(id, firstName, lastName, age, email, username, password, active, accountType));
 
         System.out.println("Account created");
-        for(User user: db){
+        for(User user: db.getDb()){
             System.out.println(user);
         }
 
-        return db.getLast();
+        return db.getDb().getLast();
     }
 
     // login
     @Override
     public User login(){
-        return input.loginValidation(db);
+        return input.loginValidation(db.getDb());
     }
 
     // logout
@@ -109,6 +101,6 @@ public class AccountManager implements UserOperations {
         System.out.println("Processing account closer...");
         System.out.println("Account closed");
         currentUser.setActive(false);
-        db.remove(currentUser);
+        db.getDb().remove(currentUser);
     }
 }

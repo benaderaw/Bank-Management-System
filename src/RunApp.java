@@ -88,7 +88,7 @@ public class RunApp {
                     accountManager.logout(currentUser);
                 }
 
-                for(User user: accountManager.db){
+                for(User user: accountManager.db.getDb()){
                     System.out.println(user);
                 }
             }

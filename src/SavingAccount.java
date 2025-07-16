@@ -11,21 +11,23 @@ public class SavingAccount extends BankAccount{
     //METHODS
     @Override
     public double deposit(double amount) {
-        System.out.printf("Depositing %.2f into savings account...\n", amount);
+        System.out.printf("Depositing $%.2f into savings account...\n", amount);
+        System.out.println("Deposit successful\n");
         return super.deposit(amount);
     }
 
     @Override
     public double withdraw(double amount) {
-        System.out.printf("Withdrawing %.2f from savings account...\n", amount);
+        System.out.printf("Withdrawing $%.2f from savings account...\n", amount);
+        System.out.println("Withdrawal successful\n");
 
         if(amount <= 0){
-            System.out.println("🔶Withdraw amount must be greater then 0");
+            System.out.println("⚠️Withdraw amount must be greater then 0");
         }else if(amount > getBalance()){
-            System.out.println("🔶insufficient funds");
+            System.out.println("⚠️insufficient funds");
         }else{
             setBalance(getBalance() - amount);
-            getTransactions().add("-" + amount);
+            getTransactions().add(-amount);
         }
 
         return getBalance();

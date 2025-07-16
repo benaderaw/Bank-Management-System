@@ -4,7 +4,7 @@ public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
     private String accountType;
     private double balance;
-    private ArrayList<String> transactions;
+    private ArrayList<Double> transactions;
 
     public BankAccount(){
         this.accountType = "";
@@ -22,7 +22,7 @@ public abstract class BankAccount implements BankOperations {
     public double deposit(double amount){
         if(amount > 0){
             balance = amount + balance;
-            transactions.add("+" + amount);
+            transactions.add(amount);
         }
 
         return balance;
@@ -32,17 +32,23 @@ public abstract class BankAccount implements BankOperations {
     public double withdraw(double amount){
         if(balance >= amount && amount > 0){
             balance = balance - amount;
-            transactions.add("-" + amount);
+            transactions.add(-amount);
         }
         return balance;
     }
 
     @Override
     public void viewTransactions(){
-        for(String transaction: transactions){
-            String action = transaction.startsWith("+") ? "Deposit" : "Withdraw";
-            System.out.printf("%s\t\t%s\n", action, transaction);
+        System.out.println("Transactions");
+        for(double transaction: transactions){
+            String action = transaction > 0 ? "Deposit" : "Withdraw";
+            if(transaction > 0){
+                System.out.printf("%-10s\t\t+$%.2f\n", action, transaction);
+            }else{
+                System.out.printf("%-10s\t\t-$%.2f\n", action, Math.abs(transaction));
+            }
         }
+        System.out.print("\n");
     }
 
     // getters and setters
@@ -54,7 +60,7 @@ public abstract class BankAccount implements BankOperations {
         this.balance = balance;
     }
 
-    public ArrayList<String> getTransactions(){
+    public ArrayList<Double> getTransactions(){
         return transactions;
     }
 

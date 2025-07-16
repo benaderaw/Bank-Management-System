@@ -2,19 +2,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InputManager {
-    public String stringInput = "";
-    public int intInput = 0;
+    private String stringInput = "";
 
     Scanner scanner = new Scanner(System.in);
 
-    // firstname
+    // firstname prompt
     public String promptFirstname() {
         while (true) {
-            System.out.print("First name: ");
+            System.out.print("🔷First name: ");
             stringInput = scanner.nextLine();
 
             if (stringInput.isEmpty()) {
-                System.out.print("🔶Please provide a first name\n");
+                System.out.print("⚠️Please provide a first name\n");
                 continue;
             }
             break;
@@ -22,14 +21,14 @@ public class InputManager {
         return stringInput;
     }
 
-    // lastname
+    // lastname prompt
     public String promptLastname() {
         while (true) {
-            System.out.print("Last name: ");
+            System.out.print("🔷Last name: ");
             stringInput = scanner.nextLine();
 
             if (stringInput.isEmpty()) {
-                System.out.print("🔶Please provide a last name\n");
+                System.out.print("⚠️Please provide a last name\n");
                 continue;
             }
             break;
@@ -37,43 +36,43 @@ public class InputManager {
         return stringInput;
     }
 
-    // firstname
+    // age prompt
     public int promptAge() {
+        int intInput = 0;
         while (true) {
-            System.out.print("Age: ");
+            System.out.print("🔷Age: ");
 
             if (scanner.hasNextInt()) {
                 intInput = scanner.nextInt();
                 if (intInput < 18) {
-                    System.out.println("🔶You must be 18 years or older to create an account\n");
+                    System.out.println("⚠️You must be 18 years or older to create an account\n");
                     continue;
                 }
                 scanner.nextLine();
                 break;
             } else {
                 scanner.nextLine();
-                System.out.println("🔶Age must be a a whole number");
+                System.out.println("⚠️Age must be a a whole number\n");
             }
         }
 
         return intInput;
     }
 
-    // email input and validation
+    // email validation
     public boolean isValidEmail(String email) {
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
-
     public String emailValidation() {
         while (true) {
-            System.out.print("Email: ");
+            System.out.print("🔷Email: ");
             stringInput = scanner.nextLine().toLowerCase().trim();
 
             if (isValidEmail(stringInput)) {
                 break;
             } else {
-                System.out.println("🔶Invalid email, try again");
+                System.out.println("⚠️Invalid email, try again\n");
             }
         }
 
@@ -89,7 +88,7 @@ public class InputManager {
 
             for (User user : db) {
                 if (email.equals(user.getEmail())) {
-                    System.out.println("🔶Email already exists, try again");
+                    System.out.println("⚠️Email already exists, try again\n");
                     continue OuterLoop;
                 }
             }
@@ -102,14 +101,14 @@ public class InputManager {
     // username
     public String usernameValidation() {
         while (true) {
-            System.out.print("Username: ");
+            System.out.print("🔷Username: ");
             stringInput = scanner.nextLine().trim();
 
             if (stringInput.isEmpty()) {
-                System.out.print("🔶Please provide a username\n");
+                System.out.print("⚠️Please provide a username\n");
                 continue;
             } else if (stringInput.length() < 4) {
-                System.out.print("🔶Username needs to be at lease 4 characters long\n");
+                System.out.print("⚠️Username needs to be at lease 4 characters long\n");
                 continue;
             }
             break;
@@ -126,7 +125,7 @@ public class InputManager {
 
             for (User user : db) {
                 if (username.equals(user.getUsername())) {
-                    System.out.println("🔶Username already exists, try a different username");
+                    System.out.println("⚠️Username already exists, try a different username\n");
                     continue OuterLoop;
                 }
             }
@@ -139,13 +138,13 @@ public class InputManager {
     // password
     public String passwordValidation() {
         while (true) {
-            System.out.print("Password: ");
+            System.out.print("🔷Password: ");
             stringInput = scanner.nextLine().trim();
 
             if (stringInput.isEmpty()) {
-                System.out.println("🔶Please provide a password");
+                System.out.println("⚠️Please provide a password\n");
             } else if (stringInput.length() < 8) {
-                System.out.println("🔶Password needs to be 8 characters or above");
+                System.out.println("⚠️Password needs to be 8 characters or above\n");
             } else {
                 break;
             }
@@ -158,28 +157,27 @@ public class InputManager {
     public String promptNewAccountType() {
         while (true) {
             System.out.println("Which account type would ypu like to open");
-            System.out.print("Checking | Saving | Checking and Saving: ");
+            System.out.print("🔷Checking | Saving | Checking and Saving: ");
             stringInput = scanner.nextLine().toLowerCase().trim();
 
             if (stringInput.isEmpty()) {
-                System.out.println("🔶Please choose account type");
+                System.out.println("⚠️Please choose account type\n");
             } else if (stringInput.equals("checking") || stringInput.equals("savings") || stringInput.equals("saving") || stringInput.equals("checking and savings") || stringInput.equals("checking and saving")) {
                 break;
             } else {
-                System.out.println("🔶Please choose account type");
+                System.out.println("⚠️Please choose account type\n");
             }
         }
 
         return stringInput;
     }
 
-
     // login
     public int loginUsernameValidation(ArrayList<User> db) {
         int index = 0;
 
         System.out.println("Log In");
-        System.out.print("Username: ");
+        System.out.print("🔷Username: ");
         stringInput = scanner.nextLine();
 
         for (User user : db) {
@@ -194,7 +192,7 @@ public class InputManager {
     public User loginValidation(ArrayList<User> db) {
         while (true) {
             int index = loginUsernameValidation(db);
-            System.out.print("Password: ");
+            System.out.print("🔷Password: ");
             stringInput = scanner.nextLine();
 
             String password = db.get(index).getPassword();
@@ -205,7 +203,7 @@ public class InputManager {
                 return db.get(index);
             }
 
-            System.out.println("🔶invalid credentials, try again");
+            System.out.println("⚠️invalid credentials, try again\n");
         }
     }
 
@@ -214,7 +212,7 @@ public class InputManager {
         double amount;
 
         while (true){
-            System.out.print("How much would you like to deposit: ");
+            System.out.print("🔷How much would you like to deposit: ");
 
             if(scanner.hasNextDouble()){
                 amount = scanner.nextDouble();
@@ -222,7 +220,7 @@ public class InputManager {
                 break;
             }else{
                 scanner.nextLine();
-                System.out.println("🔶Please type a valid number");
+                System.out.println("⚠️Please type a valid number\n");
             }
         }
 
@@ -233,7 +231,7 @@ public class InputManager {
     public double promptWithdrawAmount(){
         double amount;
         while (true){
-            System.out.print("Withdrawal amount: ");
+            System.out.print("🔷Withdrawal amount: ");
 
             if(scanner.hasNextDouble()){
                 amount = scanner.nextDouble();
@@ -241,7 +239,7 @@ public class InputManager {
                 break;
             }else{
                 scanner.nextLine();
-                System.out.println("🔶Please type a valid number");
+                System.out.println("⚠️Please type a valid number\n");
             }
         }
 
@@ -252,19 +250,19 @@ public class InputManager {
     public String promptCloseAccount(double balance){
         String input = "";
         if(balance > 0){
-            System.out.println("🔶Please make sure your have no balance before closing account");
+            System.out.println("⚠️Please make sure your have no balance before closing account\n");
             return "ABORT";
         }else {
             System.out.println("We are sad to see you go, but it was out pleasure to serve you!");
             while (true){
-                System.out.print("Please type 'CLOSE ACCOUNT' to confirm account closure: ");
+                System.out.print("🔷Please type 'CLOSE ACCOUNT' to confirm account closure: ");
                 input = scanner.nextLine().trim();
 
                 if(input.equals("CLOSE ACCOUNT")){
                     break;
                 }else{
-                    System.out.println("🔶Type 'CLOSE ACCOUNT' to confirm");
-                    System.out.println("💡'CLOSE ACCOUNT' must be types exactly as it appears");
+                    System.out.println("⚠️Type 'CLOSE ACCOUNT' to confirm");
+                    System.out.println("💡'CLOSE ACCOUNT' must be types exactly as it appears\n");
                 }
             }
         }

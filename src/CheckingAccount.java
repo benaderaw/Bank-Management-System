@@ -14,8 +14,6 @@ public class CheckingAccount extends BankAccount{
 
     }
 
-
-
     //METHODS
     @Override
     public double deposit(double amount){
@@ -54,14 +52,10 @@ public class CheckingAccount extends BankAccount{
     }
 
     @Override
-    public void viewTransactions(){
-        System.out.println("🔄Loading checking transactions...\n");
-        super.viewTransactions();
-    }
-
-    @Override
     public void viewDetails(User currentUser){
         String typeOfAccount = getAccountType().substring(0, 1).toUpperCase() + getAccountType().substring(1);
+        String firstName = currentUser.getFirstName().substring(0, 1).toUpperCase() + currentUser.getFirstName().substring(1);
+        String lastName = currentUser.getLastName().substring(0, 1).toUpperCase() + currentUser.getLastName().substring(1);
 
         super.viewDetails(currentUser);
         ArrayList<String> dailyWithdrawLimit = new ArrayList<>();
@@ -78,6 +72,11 @@ public class CheckingAccount extends BankAccount{
         accountType.add("Account Type");
         accountType.add(typeOfAccount);
         getDetails().add(accountType);
+
+        ArrayList<String> accountOwner = new ArrayList<>();
+        accountOwner.add("Account Owner");
+        accountOwner.add(firstName + " " + lastName);
+        getDetails().add(accountOwner);
     }
 
 

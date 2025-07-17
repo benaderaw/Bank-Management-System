@@ -339,5 +339,34 @@ public class InputManager {
         return input;
     }
 
+    // select account
+    public String promptSelectAccount(User currentUser){
+        if (currentUser.getAccounts().size() <= 1) {
+            // No need to prompt, only one account available
+            return "";
+        }
+
+        String input;
+
+        while (true) {
+            System.out.print("\n");
+            for (BankAccount account : currentUser.getAccounts()) {
+                String accountType = account.getAccountType().substring(0, 1).toUpperCase() + account.getAccountType().substring(1);
+                System.out.println(accountType);
+            }
+            System.out.print("🔷Select account: ");
+            input = scanner.nextLine().toLowerCase().trim();
+
+            if(input.equals("checking") || input.equals("savings")){
+                break;
+            }else {
+                System.out.println("⚠️Please select an account");
+                System.out.println("💡make sure to include the last 's' in 'savings'\n");
+            }
+        }
+
+        return input;
+    }
+
 
 }

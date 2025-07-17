@@ -62,7 +62,8 @@ public class RunApp {
 
                 // deposit
                 if(action.equals("deposit")){
-                    BankAccount selectedAccount = selectAccount(scanner);
+                    String input = inputManager.promptSelectAccount(currentUser);
+                    BankAccount selectedAccount = selectAccount(input);
                     double amount = inputManager.promptDepositAmount();
 
                     selectedAccount.deposit(amount);
@@ -70,7 +71,8 @@ public class RunApp {
 
                 // withdraw
                 if(action.equals("withdraw")){
-                    BankAccount selectedAccount = selectAccount(scanner);
+                    String input = inputManager.promptSelectAccount(currentUser);
+                    BankAccount selectedAccount = selectAccount(input);
                     double amount = inputManager.promptWithdrawAmount();
 
                     selectedAccount.withdraw(amount);
@@ -78,12 +80,14 @@ public class RunApp {
 
                 // transactions
                 if(action.equals("transactions") || action.equals("view transactions")){
-                    BankAccount selectedAccount = selectAccount(scanner);
+                    String input = inputManager.promptSelectAccount(currentUser);
+                    BankAccount selectedAccount = selectAccount(input);
 
-                    System.out.println("🧾Transactions");
                     if(selectedAccount.getTransactions().isEmpty()){
                         System.out.println("No transactions available\n");
                     }else{
+                        System.out.printf("🔄Loading %s Account transactions...\n\n", capitalize(selectedAccount.getAccountType()));
+                        System.out.println("🧾Transactions");
                         selectedAccount.viewTransactions();
                     }
                 }
@@ -122,7 +126,8 @@ public class RunApp {
 
                 // view details
                 if(action.equals("view details")){
-                    BankAccount selectedAccount = selectAccount(scanner);
+                    String input = inputManager.promptSelectAccount(currentUser);
+                    BankAccount selectedAccount = selectAccount(input);
 
                     System.out.println("🔄Loading details...\n");
                     System.out.println("📑Details");
@@ -162,11 +167,10 @@ public class RunApp {
         }
     }
 
-
     // HELPER METHODS
     private void welcomeDisplay(String input){
         String welcome = input.equals("c") ? "Welcome, " : "Welcome Back, ";
-        System.out.println(welcome + capitalize(currentUser.getFirstName()) + "!\n");
+        System.out.println("👋" + welcome + capitalize(currentUser.getFirstName()) + "!\n");
         System.out.println("Bank Accounts");
         System.out.println("=================");
     }
@@ -203,29 +207,17 @@ public class RunApp {
         }
     }
 
-    private BankAccount selectAccount(Scanner scanner){
+    private BankAccount selectAccount(String input){
         BankAccount selectedAccount = currentUser.getAccounts().getFirst();
+        if(input.isEmpty()) {
+            return selectedAccount;
+        }
 
-        System.out.print("\n");
         if(currentUser.getAccounts().size() > 1) {
-            while (true) {
-                for (BankAccount account : currentUser.getAccounts()) {
-                    System.out.println(capitalize(account.getAccountType()));
-                }
-                System.out.print("🔷Select account: ");
-                String input = scanner.nextLine().toLowerCase().trim();
-
-                if(input.equals("checking") || input.equals("savings")){
-                    for (BankAccount account : currentUser.getAccounts()) {
-                        if (account.getAccountType().equalsIgnoreCase(input)) {
-                            selectedAccount = account;
-                            break;
-                        }
-                    }
+            for (BankAccount account : currentUser.getAccounts()) {
+                if (account.getAccountType().equalsIgnoreCase(input)) {
+                    selectedAccount = account;
                     break;
-                }else {
-                    System.out.println("⚠️Please select an account");
-                    System.out.println("💡make sure to include the last 's' in 'savings'\n");
                 }
             }
         }
@@ -303,5 +295,6 @@ public class RunApp {
 
         return transferAmount;
     }
+
 
 }

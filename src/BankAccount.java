@@ -72,9 +72,6 @@ public abstract class BankAccount implements BankOperations {
 
     @Override
     public void viewDetails(User currentUser){
-        String firstName = currentUser.getFirstName().substring(0, 1).toUpperCase() + currentUser.getFirstName().substring(1);
-        String lastName = currentUser.getLastName().substring(0, 1).toUpperCase() + currentUser.getLastName().substring(1);
-
 
         ArrayList<String> accountNumber = new ArrayList<>();
         accountNumber.add("Account Number");
@@ -95,11 +92,6 @@ public abstract class BankAccount implements BankOperations {
         balance.add("Current Balance");
         balance.add("$" + this.balance);
         details.add(balance);
-
-        ArrayList<String> accountOwner = new ArrayList<>();
-        accountOwner.add("Account Owner");
-        accountOwner.add(firstName + " " + lastName);
-        details.add(accountOwner);
     }
 
 

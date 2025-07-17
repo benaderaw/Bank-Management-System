@@ -1,18 +1,21 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class AccountManager implements UserOperations {
 
     DB db = new DB();
+    private Scanner scanner;
+    InputManager inputManager;
     public ArrayList<BankAccount> xx;
     public ArrayList<BankAccount> zz;
     public ArrayList<BankAccount> yy;
 
-    InputManager inputManager = new InputManager();
+
 
     // CONSTRUCTOR
-    public AccountManager() {
+    public AccountManager(Scanner scanner) {
         System.out.print("\n\n");
         this.xx = new ArrayList<>();
         this.yy = new ArrayList<>();
@@ -24,10 +27,12 @@ public class AccountManager implements UserOperations {
         this.db.getDb().add(new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false, xx));
         this.db.getDb().add(new User(UUID.randomUUID().toString(), "ben", "aderaw", 33, "ben001@gmail.com", "dogwood", "falcon005.", false, zz));
         this.db.getDb().add(new User(UUID.randomUUID().toString(), "william", "McCormic", 65, "william@gmail.com", "willisgod", "nowayjose.", false, yy));
-
         for(User user: db.getDb()){
             System.out.println(user);
         }
+
+        this.scanner = scanner;
+        this.inputManager= new InputManager(scanner);
 
     }
 
@@ -93,8 +98,6 @@ public class AccountManager implements UserOperations {
 
     @Override
     public void closeAccount(User currentUser){
-        System.out.println("Processing account closer...");
-        System.out.println("Account closed");
         currentUser.setActive(false);
         db.getDb().remove(currentUser);
     }

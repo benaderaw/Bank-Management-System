@@ -3,9 +3,10 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RunApp {
+    Scanner scanner = new Scanner(System.in);
     private User currentUser;
-    InputManager inputManager = new InputManager();
-    AccountManager accountManager = new AccountManager();
+    InputManager inputManager = new InputManager(scanner);
+    AccountManager accountManager = new AccountManager(scanner);
 
     // CONSTRUCTOR
     public RunApp(){
@@ -13,11 +14,9 @@ public class RunApp {
                 accountManager.xx);
 
     }
-
-
+    
     // METHOD
     public void start(){
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n===== Welcome to Blue Everest Bank =====\n");
 
         OuterLoop:
@@ -57,10 +56,10 @@ public class RunApp {
                     System.out.printf("%-24s %s\n\n", "", "available");
                 }
 
-                String action = handleAction(scanner);
+                String route = inputManager.promptRoute();
 
                 // deposit
-                if(action.equals("deposit")){
+                if(route.equals("deposit")){
                     String input = inputManager.promptSelectAccount(currentUser);
                     BankAccount selectedAccount = selectAccount(input);
                     double amount = inputManager.promptDepositAmount();
@@ -69,7 +68,7 @@ public class RunApp {
                 }
 
                 // withdraw
-                if(action.equals("withdraw")){
+                if(route.equals("withdraw")){
                     String input = inputManager.promptSelectAccount(currentUser);
                     BankAccount selectedAccount = selectAccount(input);
                     double amount = inputManager.promptWithdrawAmount();
@@ -78,7 +77,7 @@ public class RunApp {
                 }
 
                 // transactions
-                if(action.equals("transactions") || action.equals("view transactions")){
+                if(route.equals("transactions") || route.equals("view transactions")){
                     String input = inputManager.promptSelectAccount(currentUser);
                     BankAccount selectedAccount = selectAccount(input);
 
@@ -92,7 +91,7 @@ public class RunApp {
                 }
 
                 // transfer
-                if(action.equals("transfer")){
+                if(route.equals("transfer")){
                     System.out.println("🔀Transfer");
 
                     if(currentUser.getAccounts().size() == 1){
@@ -124,7 +123,7 @@ public class RunApp {
                 }
 
                 // view details
-                if(action.equals("view details")){
+                if(route.equals("view details")){
                     String input = inputManager.promptSelectAccount(currentUser);
                     BankAccount selectedAccount = selectAccount(input);
 
@@ -139,7 +138,7 @@ public class RunApp {
                 }
 
                 // close accounts
-                if(action.equals("close account")){
+                if(route.equals("close account")){
                     double balance = 0;
                     for (BankAccount account : currentUser.getAccounts()) {
                         balance = balance + account.getBalance();
@@ -154,17 +153,10 @@ public class RunApp {
                 }
 
                 // logout
-                if(action.equals("logout") || action.equals("log out")){
+                if(route.equals("logout") || route.equals("log out")){
                     System.out.println("🔄Logging out...\n\n");
                     accountManager.logout(currentUser);
-
-
                 }
-
-//                for(User user: accountManager.db.getDb()){
-//                    System.out.println(user);
-//                }
-
             }
         }
     }
@@ -174,39 +166,11 @@ public class RunApp {
         String welcome = input.equals("c") ? "Welcome, " : "Welcome Back, ";
         System.out.println("👋" + welcome + capitalize(currentUser.getFirstName()) + "!\n");
         System.out.println("Bank Accounts");
-        System.out.println("=================");
+        System.out.println("==============");
     }
 
     private void loggedInMenuDisplay(){
-        System.out.println("\n🔗MENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | TRANSFER | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
-    }
-
-    private String handleAction(Scanner scanner){
-        while (true) {
-            System.out.print("🔷What would you like to do: ");
-            String input = scanner.nextLine().toLowerCase().trim();
-
-
-            switch (input){
-                case "deposit":
-                case "withdraw":
-                case "transaction":
-                case "transactions":
-                case "view transactions":
-                case "transfer":
-                case "view details":
-                case "logout":
-                case "log out":
-                case "close account":
-                    break;
-                default:
-                    System.out.println("⚠️Please choose an action fro the menu");
-                    System.out.println("💡input does not need to be capitalized\n");
-                    continue;
-            }
-
-            return input;
-        }
+        System.out.println("\n🔗MENU: [ DEPOSIT | WITHDRAW | TRANSFER | VIEW TRANSACTIONS | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
     }
 
     private BankAccount selectAccount(String input){
@@ -225,28 +189,6 @@ public class RunApp {
         }
 
         return selectedAccount;
-    }
-
-    // capitalize first letter
-    private String capitalize(String word){
-        word = word.substring(0, 1).toUpperCase() + word.substring(1);
-        return word;
-    }
-
-    public  String hideAccountAndRouting(long num){
-        String convertToString = "" + num;
-        String shortened =  convertToString.substring(convertToString.length() - 6);
-
-        String hiddenNum = "";
-        for(int i = 0; i < shortened.length(); i++){
-            if(i < 2){
-                hiddenNum += "*";
-            }else{
-                hiddenNum += shortened.charAt(i);
-            }
-        }
-
-        return hiddenNum;
     }
 
     public BankAccount transferFrom(String transferFrom){
@@ -298,5 +240,25 @@ public class RunApp {
         return transferAmount;
     }
 
+    public  String hideAccountAndRouting(long num){
+        String convertToString = "" + num;
+        String shortened =  convertToString.substring(convertToString.length() - 6);
 
+        String hiddenNum = "";
+        for(int i = 0; i < shortened.length(); i++){
+            if(i < 2){
+                hiddenNum += "*";
+            }else{
+                hiddenNum += shortened.charAt(i);
+            }
+        }
+
+        return hiddenNum;
+    }
+
+    // capitalize first letter
+    private String capitalize(String word){
+        word = word.substring(0, 1).toUpperCase() + word.substring(1);
+        return word;
+    }
 }

@@ -3,8 +3,12 @@ import java.util.Scanner;
 
 public class InputManager {
     private String stringInput = "";
+    private Scanner scanner;
 
-    Scanner scanner = new Scanner(System.in);
+    // CONSTRUCTOR
+    public InputManager(Scanner scanner){
+        this.scanner = scanner;
+    }
 
     // firstname prompt
     public String promptFirstname() {
@@ -198,12 +202,13 @@ public class InputManager {
             String password = db.get(index).getPassword();
 
             if (password.equals(stringInput)) {
-                System.out.println("🔄Logging in...\n");
+                System.out.println("🔄Logging in...");
+                System.out.println("✅Logged in\n");
                 db.get(index).setActive(true);
                 return db.get(index);
             }
 
-            System.out.println("⚠️invalid credentials, try again\n");
+            System.out.println("⚠️invalid credentials, try again");
         }
     }
 
@@ -317,7 +322,7 @@ public class InputManager {
 
     // close account
     public String promptCloseAccount(double balance){
-        String input = "";
+        String input;
         if(balance > 0){
             System.out.println("⚠️Please make sure your have no balance before closing account\n");
             return "ABORT";
@@ -349,7 +354,6 @@ public class InputManager {
         String input;
 
         while (true) {
-            System.out.print("\n");
             for (BankAccount account : currentUser.getAccounts()) {
                 String accountType = account.getAccountType().substring(0, 1).toUpperCase() + account.getAccountType().substring(1);
                 System.out.println(accountType);
@@ -368,5 +372,31 @@ public class InputManager {
         return input;
     }
 
+    public String promptRoute(){
+        while (true) {
+            System.out.print("🔷What would you like to do: ");
+            String input = scanner.nextLine().toLowerCase().trim();
+
+            switch (input){
+                case "deposit":
+                case "withdraw":
+                case "transaction":
+                case "transactions":
+                case "view transactions":
+                case "transfer":
+                case "view details":
+                case "logout":
+                case "log out":
+                case "close account":
+                    break;
+                default:
+                    System.out.println("⚠️Please choose an action fro the menu");
+                    System.out.println("💡input does not need to be capitalized\n");
+                    continue;
+            }
+
+            return input;
+        }
+    }
 
 }

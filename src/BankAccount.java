@@ -8,6 +8,7 @@ public abstract class BankAccount implements BankOperations {
     private ArrayList<String> transactions;
     private long accountNumber;
     private long routingNumber;
+    private ArrayList<ArrayList<String>> details;
 
     Random random = new Random();
 
@@ -17,6 +18,7 @@ public abstract class BankAccount implements BankOperations {
         this.transactions = new ArrayList<>();
         this.accountNumber = random.nextLong(100000000000L, 999999999999L);
         this.routingNumber = random.nextLong(100000000, 999999999);
+        this.details = new ArrayList<>();
     }
 
     // METHODS
@@ -57,8 +59,8 @@ public abstract class BankAccount implements BankOperations {
         System.out.print("\n");
     }
 
+    @Override
     public void transfer(BankAccount to, double amount){
-
         double transferFromNewBalance = this.getBalance() - amount;
         this.setBalance(transferFromNewBalance);
         this.transactions.add("T-$" + amount);
@@ -66,7 +68,38 @@ public abstract class BankAccount implements BankOperations {
         double transferToNewBalance = to.getBalance() + amount;
         to.setBalance(transferToNewBalance);
         to.transactions.add("T+$" + amount);
+    }
 
+    @Override
+    public void viewDetails(User currentUser){
+        String firstName = currentUser.getFirstName().substring(0, 1).toUpperCase() + currentUser.getFirstName().substring(1);
+        String lastName = currentUser.getLastName().substring(0, 1).toUpperCase() + currentUser.getLastName().substring(1);
+
+
+        ArrayList<String> accountNumber = new ArrayList<>();
+        accountNumber.add("Account Number");
+        accountNumber.add("" + this.accountNumber);
+        details.add(accountNumber);
+
+        ArrayList<String> routingNumber = new ArrayList<>();
+        routingNumber.add("Routing Number");
+        routingNumber.add("" + this.routingNumber);
+        details.add(routingNumber);
+
+        ArrayList<String> emptySpace = new ArrayList<>();
+        emptySpace.add("----");
+        emptySpace.add("");
+        details.add(emptySpace);
+
+        ArrayList<String> balance = new ArrayList<>();
+        balance.add("Current Balance");
+        balance.add("$" + this.balance);
+        details.add(balance);
+
+        ArrayList<String> accountOwner = new ArrayList<>();
+        accountOwner.add("Account Owner");
+        accountOwner.add(firstName + " " + lastName);
+        details.add(accountOwner);
     }
 
 
@@ -105,5 +138,9 @@ public abstract class BankAccount implements BankOperations {
 
     public void setRoutingNumber(long routingNumber){
         this.routingNumber = routingNumber;
+    }
+
+    public  ArrayList<ArrayList<String>> getDetails(){
+        return details;
     }
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class SavingAccount extends BankAccount{
     private double interestRate;
 
@@ -5,7 +7,7 @@ public class SavingAccount extends BankAccount{
         super();
         this.setAccountType("savings");
         this.setBalance(35);
-        this.interestRate = 3.6;
+        this.interestRate = 3.44;
     }
 
     //METHODS
@@ -44,6 +46,23 @@ public class SavingAccount extends BankAccount{
         System.out.println("🔄Loading savings transactions...\n");
         super.viewTransactions();
     }
+
+    @Override
+    public void viewDetails(User currentUser){
+        String typeOfAccount = getAccountType().substring(0, 1).toUpperCase() + getAccountType().substring(1);
+
+        super.viewDetails(currentUser);
+        ArrayList<String> interestRate = new ArrayList<>();
+        interestRate.add("Interest Rate");
+        interestRate.add(this.interestRate + "%");
+        getDetails().add(interestRate);
+
+        ArrayList<String> accountType = new ArrayList<>();
+        accountType.add("Account Type");
+        accountType.add(typeOfAccount);
+        getDetails().add(accountType);
+    }
+
 
     public double monthlyInterrestPay(){
         return (double) Math.round((getBalance() * (interestRate / 100)/ 12) * 100)/100;

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class CheckingAccount extends BankAccount{
@@ -9,7 +10,7 @@ public class CheckingAccount extends BankAccount{
         this.setAccountType("checking");
         this.setBalance(10);
         this.dailyWithdrawLimit = 500.00;
-        this.dailyWithdrawLimitTracker = 0;
+        this.dailyWithdrawLimitTracker = 500;
 
     }
 
@@ -32,16 +33,17 @@ public class CheckingAccount extends BankAccount{
     public double withdraw(double amount){
         if(amount <= 0){
             System.out.println("⚠️Withdraw amount must be greater then 0\n");
-        }else if(dailyWithdrawLimitTracker >= 500){
+        }else if(dailyWithdrawLimitTracker == 0){
             System.out.println("⚠️Daily withdrawal limit of $500.00 reached\n");
-        }else if((amount + dailyWithdrawLimitTracker) > dailyWithdrawLimit){
-            System.out.println("⚠️Cannot withdrawal more then daily limit of $500.00\n");
+        }else if(amount > dailyWithdrawLimitTracker){
+            System.out.println("⚠️Cannot withdrawal more then daily limit of $500.00");
+            System.out.println("💡View Details to check remaining withdraw limit\n");
         }else if(amount > getBalance()){
             System.out.println("⚠️insufficient funds\n");
         }else{
             setBalance(getBalance() - amount);
             getTransactions().add("W-$" + amount);
-            dailyWithdrawLimitTracker = dailyWithdrawLimitTracker + amount;
+            dailyWithdrawLimitTracker -= amount;
 
             System.out.printf("🔄Processing withdrawal of $%.2f from Checking Account...\n", amount);
             System.out.println("✅Withdrawal successfully \n");
@@ -55,6 +57,27 @@ public class CheckingAccount extends BankAccount{
     public void viewTransactions(){
         System.out.println("🔄Loading checking transactions...\n");
         super.viewTransactions();
+    }
+
+    @Override
+    public void viewDetails(User currentUser){
+        String typeOfAccount = getAccountType().substring(0, 1).toUpperCase() + getAccountType().substring(1);
+
+        super.viewDetails(currentUser);
+        ArrayList<String> dailyWithdrawLimit = new ArrayList<>();
+        dailyWithdrawLimit.add("Daily Withdraw Limit");
+        dailyWithdrawLimit.add("$" + this.dailyWithdrawLimit);
+        getDetails().add(dailyWithdrawLimit);
+
+        ArrayList<String> dailyWithdrawLimitLeft = new ArrayList<>();
+        dailyWithdrawLimitLeft.add("Withdraw Limit left");
+        dailyWithdrawLimitLeft.add("$" + this.dailyWithdrawLimitTracker);
+        getDetails().add(dailyWithdrawLimitLeft);
+
+        ArrayList<String> accountType = new ArrayList<>();
+        accountType.add("Account Type");
+        accountType.add(typeOfAccount);
+        getDetails().add(accountType);
     }
 
 

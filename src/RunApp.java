@@ -8,15 +8,16 @@ public class RunApp {
     InputManager inputManager = new InputManager();
     AccountManager accountManager = new AccountManager();
 
+    // CONSTRUCTOR
     public RunApp(){
         this.currentUser = new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false,
                 accountManager.xx);
 
         currentUser.setActive(true);
-
     }
 
 
+    // METHOD
     public void start(){
         Scanner scanner = new Scanner(System.in);
 
@@ -41,7 +42,6 @@ public class RunApp {
 //            }
 
             // currentUser
-
             InnerLoop:
             while (currentUser.isActive()){
 //                String input = scanner.nextLine().toLowerCase().trim();
@@ -120,6 +120,20 @@ public class RunApp {
 
                 }
 
+                // view details
+                if(action.equals("view details")){
+                    BankAccount selectedAccount = selectAccount(scanner);
+
+                    System.out.println("🔄Loading details...\n");
+                    System.out.println("📑Details");
+                    selectedAccount.viewDetails(currentUser);
+                    for(ArrayList<String> details: selectedAccount.getDetails()){
+                        System.out.printf("%-20s ", details.get(0));
+                        System.out.printf("%20s \n", details.get(1));
+                    }
+                    System.out.print("\n");
+                }
+
                 // close accounts
                 if(action.equals("close account")){
                     double balance = 0;
@@ -152,13 +166,13 @@ public class RunApp {
     // HELPER METHODS
     private void welcomeDisplay(String input){
         String welcome = input.equals("c") ? "Welcome, " : "Welcome Back, ";
-        System.out.println(welcome + capitalize(currentUser.getFirstName()));
+        System.out.println(welcome + capitalize(currentUser.getFirstName()) + "!\n");
         System.out.println("Bank Accounts");
         System.out.println("=================");
     }
 
     private void loggedInMenuDisplay(){
-        System.out.println("🔗MENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | TRANSFER | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
+        System.out.println("\n🔗MENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | TRANSFER | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
     }
 
     private String handleAction(Scanner scanner){
@@ -200,7 +214,6 @@ public class RunApp {
                 }
                 System.out.print("🔷Select account: ");
                 String input = scanner.nextLine().toLowerCase().trim();
-                System.out.print("\n");
 
                 if(input.equals("checking") || input.equals("savings")){
                     for (BankAccount account : currentUser.getAccounts()) {

@@ -3,8 +3,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RunApp {
-    private final User currentUser;
-
+    private User currentUser;
     InputManager inputManager = new InputManager();
     AccountManager accountManager = new AccountManager();
 
@@ -13,40 +12,40 @@ public class RunApp {
         this.currentUser = new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false,
                 accountManager.xx);
 
-        currentUser.setActive(true);
     }
 
 
     // METHOD
     public void start(){
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("\n\n===== Welcome to Blue Everest Bank =====\n");
 
         OuterLoop:
         while (true) {
-//            System.out.println("🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
-//            System.out.print("To create an account type 'C', or type 'L' to login: ");
-//            String input = scanner.nextLine().toLowerCase().trim();
-//
-//            switch (input) {
-//                case "c":
-//                    currentUser = accountManager.createAccount();
-//                    break;
-//                case "l":
-//                    currentUser = accountManager.login();
-//                    break;
-//                default:
-//                    System.out.println("⚠️Create an account or login to continue\n");
-//                    continue;
-//            }
+            System.out.println("🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
+            System.out.print("🔷To create an account type 'C', or type 'L' to login: ");
+            String createOrLogin = scanner.nextLine().toLowerCase().trim();
 
-            // currentUser
+            switch (createOrLogin) {
+                case "c":
+                    currentUser = accountManager.createAccount();
+                    currentUser.setActive(true);
+                    System.out.println("🔄Processing account creation...");
+                    System.out.println("✅Account Created\n\n");
+                    break;
+                case "l":
+                    currentUser = accountManager.login();
+                    break;
+                default:
+                    System.out.println("⚠️Create an account or login to continue\n");
+                    continue;
+            }
+
             InnerLoop:
             while (currentUser.isActive()){
-//                String input = scanner.nextLine().toLowerCase().trim();
                 loggedInMenuDisplay();
-                welcomeDisplay("l");
+                welcomeDisplay(createOrLogin);
+
                 for(BankAccount account: currentUser.getAccounts()){
                     System.out.print(capitalize(account.getAccountType()) + " Account");
                     if(account.getBalance() >= 0){
@@ -156,7 +155,10 @@ public class RunApp {
 
                 // logout
                 if(action.equals("logout") || action.equals("log out")){
+                    System.out.println("🔄Logging out...\n\n");
                     accountManager.logout(currentUser);
+
+
                 }
 
 //                for(User user: accountManager.db.getDb()){
@@ -225,7 +227,7 @@ public class RunApp {
         return selectedAccount;
     }
 
-    // capitalize
+    // capitalize first letter
     private String capitalize(String word){
         word = word.substring(0, 1).toUpperCase() + word.substring(1);
         return word;
@@ -238,9 +240,9 @@ public class RunApp {
         String hiddenNum = "";
         for(int i = 0; i < shortened.length(); i++){
             if(i < 2){
-                hiddenNum = hiddenNum + "*";
+                hiddenNum += "*";
             }else{
-                hiddenNum = hiddenNum + shortened.charAt(i);
+                hiddenNum += shortened.charAt(i);
             }
         }
 

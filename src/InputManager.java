@@ -176,8 +176,8 @@ public class InputManager {
     public int loginUsernameValidation(ArrayList<User> db) {
         int index = 0;
 
-        System.out.println("Log In");
-        System.out.print("🔷Username: ");
+        System.out.println("\n🔐Log In");
+        System.out.print("👤Username: ");
         stringInput = scanner.nextLine();
 
         for (User user : db) {
@@ -192,13 +192,13 @@ public class InputManager {
     public User loginValidation(ArrayList<User> db) {
         while (true) {
             int index = loginUsernameValidation(db);
-            System.out.print("🔷Password: ");
+            System.out.print("🔑Password: ");
             stringInput = scanner.nextLine();
 
             String password = db.get(index).getPassword();
 
             if (password.equals(stringInput)) {
-                System.out.println("Logging in...");
+                System.out.println("🔄Logging in...\n");
                 db.get(index).setActive(true);
                 return db.get(index);
             }

@@ -9,7 +9,7 @@ public class AccountManager implements UserOperations {
     public ArrayList<BankAccount> zz;
     public ArrayList<BankAccount> yy;
 
-    InputManager input = new InputManager();
+    InputManager inputManager = new InputManager();
 
     // CONSTRUCTOR
     public AccountManager() {
@@ -37,27 +37,27 @@ public class AccountManager implements UserOperations {
         String id = UUID.randomUUID().toString();
 
         // first name
-        String firstName = input.promptFirstname();
+        String firstName = inputManager.promptFirstname();
 
         // last name
-        String lastName = input.promptLastname();
+        String lastName = inputManager.promptLastname();
 
         // age
-        int age = input.promptAge();
+        int age = inputManager.promptAge();
 
         // email
-        String email = input.checkUniqueEmail(db.getDb());
+        String email = inputManager.checkUniqueEmail(db.getDb());
 
         // username
-        String username = input.checkUniqueUsername(db.getDb());
+        String username = inputManager.checkUniqueUsername(db.getDb());
 
         // password
-        String password = input.passwordValidation();
+        String password = inputManager.passwordValidation();
 
         // active
         boolean active = true;
 
-        String newAccountType = input.promptNewAccountType();
+        String newAccountType = inputManager.promptNewAccountType();
 
         ArrayList<BankAccount> accountType = new ArrayList<>();
         if(newAccountType.equals("checking")){
@@ -76,24 +76,18 @@ public class AccountManager implements UserOperations {
         // add new user and account to database
         db.getDb().add(new User(id, firstName, lastName, age, email, username, password, active, accountType));
 
-        System.out.println("Account created");
-        for(User user: db.getDb()){
-            System.out.println(user);
-        }
-
         return db.getDb().getLast();
     }
 
     // login
     @Override
     public User login(){
-        return input.loginValidation(db.getDb());
+        return inputManager.loginValidation(db.getDb());
     }
 
     // logout
     @Override
     public void logout(User currentUser){
-        System.out.println("Logging out...");
         currentUser.setActive(false);
     }
 

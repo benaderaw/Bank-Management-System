@@ -5,7 +5,7 @@ public abstract class BankAccount implements BankOperations {
     // type of bank accounts - checking and saving
     private String accountType;
     private double balance;
-    private ArrayList<Double> transactions;
+    private ArrayList<String> transactions;
     private long accountNumber;
     private long routingNumber;
 
@@ -29,7 +29,7 @@ public abstract class BankAccount implements BankOperations {
     public double deposit(double amount){
         if(amount > 0){
             balance = amount + balance;
-            transactions.add(amount);
+            transactions.add("D+$" + amount);
         }
 
         return balance;
@@ -39,20 +39,20 @@ public abstract class BankAccount implements BankOperations {
     public double withdraw(double amount){
         if(balance >= amount && amount > 0){
             balance = balance - amount;
-            transactions.add(-amount);
+            transactions.add("W-$" + amount);
         }
         return balance;
     }
 
     @Override
     public void viewTransactions(){
-        for(double transaction: transactions){
-            String action = transaction > 0 ? "Deposit" : "Withdraw";
-            if(transaction > 0){
-                System.out.printf("%-10s\t\t+$%.2f\n", action, transaction);
-            }else{
-                System.out.printf("%-10s\t\t-$%.2f\n", action, Math.abs(transaction));
-            }
+        for(String transaction: transactions.reversed()){
+            String action = "";
+            if(transaction.startsWith("D")) action = "Deposit";
+            if(transaction.startsWith("W")) action = "Withdraw";
+            if(transaction.startsWith("T")) action = "Transfer";
+
+            System.out.printf("%-15s %15s\n", action, transaction.substring(1));
         }
         System.out.print("\n");
     }
@@ -61,14 +61,13 @@ public abstract class BankAccount implements BankOperations {
 
         double transferFromNewBalance = this.getBalance() - amount;
         this.setBalance(transferFromNewBalance);
-        transactions.add(-transferFromNewBalance);
+        this.transactions.add("T-$" + amount);
 
         double transferToNewBalance = to.getBalance() + amount;
         to.setBalance(transferToNewBalance);
-        transactions.add(transferToNewBalance);
+        to.transactions.add("T+$" + amount);
 
     }
-
 
 
     // getters and setters
@@ -80,7 +79,7 @@ public abstract class BankAccount implements BankOperations {
         this.balance = balance;
     }
 
-    public ArrayList<Double> getTransactions(){
+    public ArrayList<String> getTransactions(){
         return transactions;
     }
 

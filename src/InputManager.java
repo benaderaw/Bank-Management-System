@@ -212,7 +212,7 @@ public class InputManager {
         double amount;
 
         while (true){
-            System.out.print("🔷How much would you like to deposit: ");
+            System.out.print("🔷Deposit amount: ");
 
             if(scanner.hasNextDouble()){
                 amount = scanner.nextDouble();
@@ -244,6 +244,75 @@ public class InputManager {
         }
 
         return amount;
+    }
+
+    // transfer from
+    public String promptAccountFrom(){
+        String transferFrom;
+        while (true){
+            System.out.print("From Account: ");
+            transferFrom = scanner.nextLine().toLowerCase().trim();
+
+            switch (transferFrom) {
+                case "checking":
+                case "savings":
+                    break;
+                default:
+                    System.out.println("⚠️Please choose which account to transfer from");
+                    System.out.println("💡️be sure to type the last 's' in 'savings'");
+                    continue;
+            }
+            break;
+        }
+
+        return transferFrom;
+    }
+
+    // transfer to
+    public String promptTransferTo(String transferFrom){
+        String transferTo;
+        while (true){
+            System.out.print("To Account: ");
+            transferTo = scanner.nextLine().toLowerCase().trim();
+
+            if (transferTo.equals(transferFrom)) {
+                System.out.println("⚠️Please choose another account to transfer-to\n");
+                continue;
+            }
+
+            switch (transferTo) {
+                case "checking":
+                case "savings":
+                    break;
+                default:
+                    System.out.println("⚠️Please choose which account to transfer-to");
+                    System.out.println("💡️be sure to type the last 's' in 'savings'\n");
+                    continue;
+            }
+            break;
+        }
+
+        return transferTo;
+    }
+
+    // transfer amount
+    public double promptTransferAmount(BankAccount transferFromAccount){
+        double transferAmount;
+
+        while (true) {
+            System.out.printf("Amount (available balance $%.2f) : ", transferFromAccount.getBalance());
+
+            if (scanner.hasNextDouble()) {
+                transferAmount = scanner.nextDouble();
+                scanner.nextLine();
+                break;
+            } else {
+                scanner.nextLine();
+                System.out.println("⚠️Please enter an amount to transfer\n");
+            }
+        }
+
+        return transferAmount;
     }
 
     // close account

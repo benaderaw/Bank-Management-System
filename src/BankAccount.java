@@ -46,7 +46,6 @@ public abstract class BankAccount implements BankOperations {
 
     @Override
     public void viewTransactions(){
-        System.out.println("Transactions");
         for(double transaction: transactions){
             String action = transaction > 0 ? "Deposit" : "Withdraw";
             if(transaction > 0){
@@ -57,6 +56,20 @@ public abstract class BankAccount implements BankOperations {
         }
         System.out.print("\n");
     }
+
+    public void transfer(BankAccount to, double amount){
+
+        double transferFromNewBalance = this.getBalance() - amount;
+        this.setBalance(transferFromNewBalance);
+        transactions.add(-transferFromNewBalance);
+
+        double transferToNewBalance = to.getBalance() + amount;
+        to.setBalance(transferToNewBalance);
+        transactions.add(transferToNewBalance);
+
+    }
+
+
 
     // getters and setters
     public double getBalance(){

@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class RunApp {
-    private User currentUser;
+    private final User currentUser;
 
     InputManager inputManager = new InputManager();
     AccountManager accountManager = new AccountManager();
@@ -22,7 +22,7 @@ public class RunApp {
 
         System.out.println("\n\n===== Welcome to Blue Everest Bank =====\n");
 
-
+        OuterLoop:
         while (true) {
 //            System.out.println("🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
 //            System.out.print("To create an account type 'C', or type 'L' to login: ");
@@ -41,6 +41,8 @@ public class RunApp {
 //            }
 
             // currentUser
+
+            InnerLoop:
             while (currentUser.isActive()){
 //                String input = scanner.nextLine().toLowerCase().trim();
                 loggedInMenuDisplay();
@@ -77,7 +79,45 @@ public class RunApp {
                 // transactions
                 if(action.equals("transactions") || action.equals("view transactions")){
                     BankAccount selectedAccount = selectAccount(scanner);
-                    selectedAccount.viewTransactions();
+
+                    System.out.println("🧾Transactions");
+                    if(selectedAccount.getTransactions().isEmpty()){
+                        System.out.println("No transactions available\n");
+                    }else{
+                        selectedAccount.viewTransactions();
+                    }
+                }
+
+                // transfer
+                if(action.equals("transfer")){
+                    System.out.println("🔀Transfer");
+
+                    if(currentUser.getAccounts().size() == 1){
+                        System.out.println("⚠️No transfer-to account\n");
+                        continue;
+                    }
+
+                    // from
+                    String transferFrom = inputManager.promptAccountFrom();
+                    BankAccount transferFromAccount = transferFrom(transferFrom);
+
+                    if (transferFromAccount.getBalance() <= 0) {
+                        System.out.printf("⚠️Insufficient funds for transfer, available balance $%.2f\n\n", transferFromAccount.getBalance());
+                        continue InnerLoop;
+                    }
+
+                    // to
+                    String transferTo = inputManager.promptTransferTo(transferFrom);
+                    BankAccount transferToAccount = transferTo(transferTo);
+
+                    // transfer amount
+                    double transferAmount = transferAmount(transferFromAccount);
+
+                    transferFromAccount.transfer(transferToAccount, transferAmount);
+                    System.out.println("🔄Processing transfer...");
+                    System.out.printf("✅Successfully transferred $%.2f from %s Account to %s Account\n\n", transferAmount, capitalize(transferFrom),
+                            capitalize(transferTo));
+
                 }
 
                 // close accounts
@@ -118,7 +158,7 @@ public class RunApp {
     }
 
     private void loggedInMenuDisplay(){
-        System.out.println("🔗MENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | LOGOUT | CLOSE ACCOUNT ]");
+        System.out.println("🔗MENU: [ DEPOSIT | WITHDRAW | VIEW TRANSACTIONS | TRANSFER | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
     }
 
     private String handleAction(Scanner scanner){
@@ -126,12 +166,15 @@ public class RunApp {
             System.out.print("🔷What would you like to do: ");
             String input = scanner.nextLine().toLowerCase().trim();
 
+
             switch (input){
                 case "deposit":
                 case "withdraw":
                 case "transaction":
                 case "transactions":
                 case "view transactions":
+                case "transfer":
+                case "view details":
                 case "logout":
                 case "log out":
                 case "close account":
@@ -153,10 +196,11 @@ public class RunApp {
         if(currentUser.getAccounts().size() > 1) {
             while (true) {
                 for (BankAccount account : currentUser.getAccounts()) {
-                    System.out.println("- " + account.getAccountType());
+                    System.out.println(capitalize(account.getAccountType()));
                 }
                 System.out.print("🔷Select account: ");
                 String input = scanner.nextLine().toLowerCase().trim();
+                System.out.print("\n");
 
                 if(input.equals("checking") || input.equals("savings")){
                     for (BankAccount account : currentUser.getAccounts()) {
@@ -176,15 +220,12 @@ public class RunApp {
         return selectedAccount;
     }
 
-
     // capitalize
     private String capitalize(String word){
         word = word.substring(0, 1).toUpperCase() + word.substring(1);
         return word;
     }
 
-
-    //
     public  String hideAccountAndRouting(long num){
         String convertToString = "" + num;
         String shortened =  convertToString.substring(convertToString.length() - 6);
@@ -201,6 +242,53 @@ public class RunApp {
         return hiddenNum;
     }
 
+    public BankAccount transferFrom(String transferFrom){
+        BankAccount transferFromAccount = null;
 
+        // get transfer-from account
+        for (BankAccount account : currentUser.getAccounts()) {
+            if (account.getAccountType().equals(transferFrom)) {
+                transferFromAccount = account;
+                break;
+            }
+        }
+
+        return transferFromAccount;
+    }
+
+    public BankAccount transferTo(String transferTo){
+        BankAccount transferToAccount = null;
+
+        // get transfer-to account
+        for (BankAccount account : currentUser.getAccounts()) {
+            if (account.getAccountType().equals(transferTo)) {
+                transferToAccount = account;
+               break;
+            }
+        }
+
+        return transferToAccount;
+    }
+
+    public double transferAmount(BankAccount transferFromAccount){
+        double transferAmount;
+        while (true) {
+            transferAmount = inputManager.promptTransferAmount(transferFromAccount);
+
+            if (transferAmount <= 0) {
+                System.out.println("⚠️Please enter an amount greater then 0\n");
+                continue;
+            }
+
+            if (transferAmount > transferFromAccount.getBalance()) {
+                System.out.println("⚠️Amount exceeds your available balance\n");
+                continue;
+            }
+
+            break;
+        }
+
+        return transferAmount;
+    }
 
 }

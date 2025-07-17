@@ -7,7 +7,7 @@ public class CheckingAccount extends BankAccount{
     public CheckingAccount(){
         super();
         this.setAccountType("checking");
-        this.setBalance(350);
+        this.setBalance(10);
         this.dailyWithdrawLimit = 500.00;
         this.dailyWithdrawLimitTracker = 0;
 

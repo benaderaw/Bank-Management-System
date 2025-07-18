@@ -2,8 +2,8 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class RouteManager {
-    private InputManager inputManager;
-    private AccountManager accountManager;
+    private final InputManager inputManager;
+    private final AccountManager accountManager;
     
     // CONSTRUCTOR
     public RouteManager(InputManager inputManager, AccountManager accountManager){

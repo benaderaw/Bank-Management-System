@@ -1,6 +1,12 @@
 public class LoginOrCreateAccountManager {
+    private final AccountManager accountManager;
 
-    public User LoginOrCreateAccount(String createOrLogin, User currentUser, AccountManager accountManager){
+    // CONSTRUCTOR
+    public LoginOrCreateAccountManager(AccountManager accountManager){
+        this.accountManager = accountManager;
+    }
+
+    public User LoginOrCreateAccount(String createOrLogin, User currentUser){
         switch (createOrLogin) {
             case "c":
                 currentUser = accountManager.createAccount();

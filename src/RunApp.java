@@ -5,13 +5,16 @@ import java.util.UUID;
 public class RunApp {
     Scanner scanner = new Scanner(System.in);
     private User currentUser;
-    InputManager inputManager = new InputManager(scanner);
-    AccountManager accountManager = new AccountManager(scanner);
+    private InputManager inputManager = new InputManager(scanner);
+    private AccountManager accountManager = new AccountManager(scanner);
+    private MenuDisplayManager displayMenu = new MenuDisplayManager();
+    private LoginOrCreateAccountManager loginOrCreate = new LoginOrCreateAccountManager();
 
     // CONSTRUCTOR
     public RunApp(){
-        this.currentUser = new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false,
-                accountManager.xx);
+//        this.currentUser = new User(UUID.randomUUID().toString(), "sam", "dean", 24, "sam@gmail.com", "sam1234", "momo002.", false,
+//                accountManager.xx);
+        this.currentUser = null;
 
     }
     
@@ -21,24 +24,9 @@ public class RunApp {
 
         OuterLoop:
         while (true) {
-            System.out.println("🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
-            System.out.print("🔷To create an account type 'C', or type 'L' to login: ");
-            String createOrLogin = scanner.nextLine().toLowerCase().trim();
-
-            switch (createOrLogin) {
-                case "c":
-                    currentUser = accountManager.createAccount();
-                    currentUser.setActive(true);
-                    System.out.println("🔄Processing account creation...");
-                    System.out.println("✅Account Created\n\n");
-                    break;
-                case "l":
-                    currentUser = accountManager.login();
-                    break;
-                default:
-                    System.out.println("⚠️Create an account or login to continue\n");
-                    continue;
-            }
+            displayMenu.preLoginMenu();
+            String createOrLogin = inputManager.promptCreateOrLogin();
+            this.currentUser = loginOrCreate.LoginOrCreateAccount(createOrLogin, currentUser, accountManager);
 
             InnerLoop:
             while (currentUser.isActive()){

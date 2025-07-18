@@ -10,6 +10,24 @@ public class InputManager {
         this.scanner = scanner;
     }
 
+    // login or create account
+    public String promptCreateOrLogin(){
+        String input;
+
+        while (true){
+            System.out.print("🔷To create an account type 'c', or type 'l' to login: ");
+            input = scanner.nextLine().toLowerCase().trim();
+
+            switch (input){
+                case "l":
+                case "c":
+                    return input;
+                default:
+                    System.out.println("⚠️Login or Create an account to continue\n");
+            }
+        }
+    }
+
     // firstname prompt
     public String promptFirstname() {
         while (true) {

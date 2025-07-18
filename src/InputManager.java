@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class InputManager {
     private String stringInput = "";
-    private Scanner scanner;
+    private final Scanner scanner;
 
     // CONSTRUCTOR
     public InputManager(Scanner scanner){
@@ -60,7 +60,7 @@ public class InputManager {
 
     // age prompt
     public int promptAge() {
-        int intInput = 0;
+        int intInput;
         while (true) {
             System.out.print("🔷Age: ");
 
@@ -195,31 +195,33 @@ public class InputManager {
     }
 
     // login
-    public int loginUsernameValidation(ArrayList<User> db) {
-        int index = 0;
-
-        System.out.println("\n🔐Log In");
-        System.out.print("👤Username: ");
-        stringInput = scanner.nextLine();
-
-        for (User user : db) {
-            if (user.getUsername().equals(stringInput)) {
-                index = db.indexOf(user);
-            }
-        }
-
-        return index;
-    }
-
     public User loginValidation(ArrayList<User> db) {
         while (true) {
-            int index = loginUsernameValidation(db);
+            System.out.println("\n🔐Log In");
+            System.out.print("👤Username: ");
+            String usernameInput = scanner.nextLine();
+
             System.out.print("🔑Password: ");
-            stringInput = scanner.nextLine();
+            String passwordInput = scanner.nextLine();
+
+            // check
+            Integer index = null;
+            for (User user : db) {
+                if (user.getUsername().equals(usernameInput)) {
+                    index = db.indexOf(user);
+                    break;
+                }
+            }
+
+            // if username isn't found start login process again
+            if(index == null){
+                System.out.println("⚠️invalid credentials, try again");
+                continue;
+            }
 
             String password = db.get(index).getPassword();
 
-            if (password.equals(stringInput)) {
+            if (password.equals(passwordInput)) {
                 System.out.println("🔄Logging in...");
                 System.out.println("✅Logged in\n");
                 db.get(index).setActive(true);
@@ -345,7 +347,7 @@ public class InputManager {
             System.out.println("⚠️Please make sure your have no balance before closing account\n");
             return "ABORT";
         }else {
-            System.out.println("We are sad to see you go, but it was out pleasure to serve you!");
+            System.out.println("🔷We are sad to see you go, but it was out pleasure to serve you!");
             while (true){
                 System.out.print("🔷Please type 'CLOSE ACCOUNT' to confirm account closure: ");
                 input = scanner.nextLine().trim();

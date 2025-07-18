@@ -1,10 +1,12 @@
 public class MenuDisplayManager {
 
     public void preLoginMenu(){
-        System.out.println("🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
+        System.out.println("\n🔗MENU: [ CREATE ACCOUNT | LOGIN ]");
     }
 
-//    public postLoginMenu(){
-//
-//    }
+    public void postLoginMenu(){
+        System.out.println("\n🔗MENU: [ DEPOSIT | WITHDRAW | TRANSFER | VIEW TRANSACTIONS | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
+    }
+
+
 }

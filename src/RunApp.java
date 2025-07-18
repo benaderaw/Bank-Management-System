@@ -9,6 +9,9 @@ public class RunApp {
     private AccountManager accountManager = new AccountManager(scanner);
     private MenuDisplayManager displayMenu = new MenuDisplayManager();
     private LoginOrCreateAccountManager loginOrCreate = new LoginOrCreateAccountManager();
+    private DisplayManager displayManager = new DisplayManager();
+    private RouteManager routeManager = new RouteManager(inputManager, accountManager);
+    private DisplayAccountDashboard displayAccountDashboard = new DisplayAccountDashboard();
 
     // CONSTRUCTOR
     public RunApp(){
@@ -20,233 +23,23 @@ public class RunApp {
     
     // METHOD
     public void start(){
-        System.out.println("\n\n===== Welcome to Blue Everest Bank =====\n");
+        System.out.println("\n\n===== Welcome to Blue Everest Bank =====");
 
-        OuterLoop:
         while (true) {
             displayMenu.preLoginMenu();
             String createOrLogin = inputManager.promptCreateOrLogin();
             this.currentUser = loginOrCreate.LoginOrCreateAccount(createOrLogin, currentUser, accountManager);
-
-            InnerLoop:
-            while (currentUser.isActive()){
-                loggedInMenuDisplay();
-                welcomeDisplay(createOrLogin);
-
-                for(BankAccount account: currentUser.getAccounts()){
-                    System.out.print(capitalize(account.getAccountType()) + " Account");
-                    if(account.getBalance() >= 0){
-                        System.out.printf("%-15s $%.2f \n", "", account.getBalance());
-                    }else{
-                        System.out.printf("-$%15.2f\n", account.getBalance());
-                    }
-                    System.out.print(hideAccountAndRouting(account.getAccountNumber()));
-                    System.out.printf("%-24s %s\n\n", "", "available");
-                }
-
-                String route = inputManager.promptRoute();
-
-                // deposit
-                if(route.equals("deposit")){
-                    String input = inputManager.promptSelectAccount(currentUser);
-                    BankAccount selectedAccount = selectAccount(input);
-                    double amount = inputManager.promptDepositAmount();
-
-                    selectedAccount.deposit(amount);
-                }
-
-                // withdraw
-                if(route.equals("withdraw")){
-                    String input = inputManager.promptSelectAccount(currentUser);
-                    BankAccount selectedAccount = selectAccount(input);
-                    double amount = inputManager.promptWithdrawAmount();
-
-                    selectedAccount.withdraw(amount);
-                }
-
-                // transactions
-                if(route.equals("transactions") || route.equals("view transactions")){
-                    String input = inputManager.promptSelectAccount(currentUser);
-                    BankAccount selectedAccount = selectAccount(input);
-
-                    if(selectedAccount.getTransactions().isEmpty()){
-                        System.out.println("No transactions available\n");
-                    }else{
-                        System.out.printf("🔄Loading %s Account transactions...\n\n", capitalize(selectedAccount.getAccountType()));
-                        System.out.println("🧾Transactions");
-                        selectedAccount.viewTransactions();
-                    }
-                }
-
-                // transfer
-                if(route.equals("transfer")){
-                    System.out.println("🔀Transfer");
-
-                    if(currentUser.getAccounts().size() == 1){
-                        System.out.println("⚠️No transfer-to account\n");
-                        continue;
-                    }
-
-                    // from
-                    String transferFrom = inputManager.promptAccountFrom();
-                    BankAccount transferFromAccount = transferFrom(transferFrom);
-
-                    if (transferFromAccount.getBalance() <= 0) {
-                        System.out.printf("⚠️Insufficient funds for transfer, available balance $%.2f\n\n", transferFromAccount.getBalance());
-                        continue InnerLoop;
-                    }
-
-                    // to
-                    String transferTo = inputManager.promptTransferTo(transferFrom);
-                    BankAccount transferToAccount = transferTo(transferTo);
-
-                    // transfer amount
-                    double transferAmount = transferAmount(transferFromAccount);
-
-                    transferFromAccount.transfer(transferToAccount, transferAmount);
-                    System.out.println("🔄Processing transfer...");
-                    System.out.printf("✅Successfully transferred $%.2f from %s Account to %s Account\n\n", transferAmount, capitalize(transferFrom),
-                            capitalize(transferTo));
-
-                }
-
-                // view details
-                if(route.equals("view details")){
-                    String input = inputManager.promptSelectAccount(currentUser);
-                    BankAccount selectedAccount = selectAccount(input);
-
-                    System.out.println("🔄Loading details...\n");
-                    System.out.println("📑Details");
-                    selectedAccount.viewDetails(currentUser);
-                    for(ArrayList<String> details: selectedAccount.getDetails()){
-                        System.out.printf("%-20s ", details.get(0));
-                        System.out.printf("%20s \n", details.get(1));
-                    }
-                    System.out.print("\n");
-                }
-
-                // close accounts
-                if(route.equals("close account")){
-                    double balance = 0;
-                    for (BankAccount account : currentUser.getAccounts()) {
-                        balance = balance + account.getBalance();
-                    }
-
-                    String input = inputManager.promptCloseAccount(balance);
-
-                    if(input.equals("CLOSE ACCOUNT")) {
-                        accountManager.closeAccount(currentUser);
-                    }
-
-                }
-
-                // logout
-                if(route.equals("logout") || route.equals("log out")){
-                    System.out.println("🔄Logging out...\n\n");
-                    accountManager.logout(currentUser);
-                }
-            }
+            runLoggedInFlow(createOrLogin);
         }
     }
 
-    // HELPER METHODS
-    private void welcomeDisplay(String input){
-        String welcome = input.equals("c") ? "Welcome, " : "Welcome Back, ";
-        System.out.println("👋" + welcome + capitalize(currentUser.getFirstName()) + "!\n");
-        System.out.println("Bank Accounts");
-        System.out.println("==============");
-    }
-
-    private void loggedInMenuDisplay(){
-        System.out.println("\n🔗MENU: [ DEPOSIT | WITHDRAW | TRANSFER | VIEW TRANSACTIONS | VIEW DETAILS | LOGOUT | CLOSE ACCOUNT ]");
-    }
-
-    private BankAccount selectAccount(String input){
-        BankAccount selectedAccount = currentUser.getAccounts().getFirst();
-        if(input.isEmpty()) {
-            return selectedAccount;
+    private void runLoggedInFlow(String createOrLogin){
+        while (currentUser.isActive()){
+            displayMenu.postLoginMenu();
+            displayManager.welcomeDisplay(createOrLogin, currentUser);
+            displayAccountDashboard.displayAccountDashboard(currentUser);
+            routeManager.route(currentUser);
         }
-
-        if(currentUser.getAccounts().size() > 1) {
-            for (BankAccount account : currentUser.getAccounts()) {
-                if (account.getAccountType().equalsIgnoreCase(input)) {
-                    selectedAccount = account;
-                    break;
-                }
-            }
-        }
-
-        return selectedAccount;
     }
 
-    public BankAccount transferFrom(String transferFrom){
-        BankAccount transferFromAccount = null;
-
-        // get transfer-from account
-        for (BankAccount account : currentUser.getAccounts()) {
-            if (account.getAccountType().equals(transferFrom)) {
-                transferFromAccount = account;
-                break;
-            }
-        }
-
-        return transferFromAccount;
-    }
-
-    public BankAccount transferTo(String transferTo){
-        BankAccount transferToAccount = null;
-
-        // get transfer-to account
-        for (BankAccount account : currentUser.getAccounts()) {
-            if (account.getAccountType().equals(transferTo)) {
-                transferToAccount = account;
-               break;
-            }
-        }
-
-        return transferToAccount;
-    }
-
-    public double transferAmount(BankAccount transferFromAccount){
-        double transferAmount;
-        while (true) {
-            transferAmount = inputManager.promptTransferAmount(transferFromAccount);
-
-            if (transferAmount <= 0) {
-                System.out.println("⚠️Please enter an amount greater then 0\n");
-                continue;
-            }
-
-            if (transferAmount > transferFromAccount.getBalance()) {
-                System.out.println("⚠️Amount exceeds your available balance\n");
-                continue;
-            }
-
-            break;
-        }
-
-        return transferAmount;
-    }
-
-    public  String hideAccountAndRouting(long num){
-        String convertToString = "" + num;
-        String shortened =  convertToString.substring(convertToString.length() - 6);
-
-        String hiddenNum = "";
-        for(int i = 0; i < shortened.length(); i++){
-            if(i < 2){
-                hiddenNum += "*";
-            }else{
-                hiddenNum += shortened.charAt(i);
-            }
-        }
-
-        return hiddenNum;
-    }
-
-    // capitalize first letter
-    private String capitalize(String word){
-        word = word.substring(0, 1).toUpperCase() + word.substring(1);
-        return word;
-    }
 }

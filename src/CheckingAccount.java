@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CheckingAccount extends BankAccount{
-    private double dailyWithdrawLimit;
+    private final double dailyWithdrawLimit;
     private double dailyWithdrawLimitTracker;
 
     public CheckingAccount(){
@@ -57,26 +57,12 @@ public class CheckingAccount extends BankAccount{
         String firstName = currentUser.getFirstName().substring(0, 1).toUpperCase() + currentUser.getFirstName().substring(1);
         String lastName = currentUser.getLastName().substring(0, 1).toUpperCase() + currentUser.getLastName().substring(1);
 
+
         super.viewDetails(currentUser);
-        ArrayList<String> dailyWithdrawLimit = new ArrayList<>();
-        dailyWithdrawLimit.add("Daily Withdraw Limit");
-        dailyWithdrawLimit.add("$" + this.dailyWithdrawLimit);
-        getDetails().add(dailyWithdrawLimit);
-
-        ArrayList<String> dailyWithdrawLimitLeft = new ArrayList<>();
-        dailyWithdrawLimitLeft.add("Withdraw Limit left");
-        dailyWithdrawLimitLeft.add("$" + this.dailyWithdrawLimitTracker);
-        getDetails().add(dailyWithdrawLimitLeft);
-
-        ArrayList<String> accountType = new ArrayList<>();
-        accountType.add("Account Type");
-        accountType.add(typeOfAccount);
-        getDetails().add(accountType);
-
-        ArrayList<String> accountOwner = new ArrayList<>();
-        accountOwner.add("Account Owner");
-        accountOwner.add(firstName + " " + lastName);
-        getDetails().add(accountOwner);
+        System.out.printf("%-20s %20s\n", "Daily Withdraw Limit", String.format("$%.2f", dailyWithdrawLimit));
+        System.out.printf("%-20s %20s\n", "Withdraw Limit left", String.format("$%.2f", dailyWithdrawLimitTracker) );
+        System.out.printf("%-20s %20s\n", "Account Type", typeOfAccount);
+        System.out.printf("%-20s %20s\n", "Account Owner", firstName + " " + lastName );
     }
 
 

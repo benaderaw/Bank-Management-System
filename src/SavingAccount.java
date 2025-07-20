@@ -47,21 +47,11 @@ public class SavingAccount extends BankAccount{
         String firstName = currentUser.getFirstName().substring(0, 1).toUpperCase() + currentUser.getFirstName().substring(1);
         String lastName = currentUser.getLastName().substring(0, 1).toUpperCase() + currentUser.getLastName().substring(1);
 
+
         super.viewDetails(currentUser);
-        ArrayList<String> interestRate = new ArrayList<>();
-        interestRate.add("Interest Rate");
-        interestRate.add(this.interestRate + "%");
-        getDetails().add(interestRate);
-
-        ArrayList<String> accountType = new ArrayList<>();
-        accountType.add("Account Type");
-        accountType.add(typeOfAccount);
-        getDetails().add(accountType);
-
-        ArrayList<String> accountOwner = new ArrayList<>();
-        accountOwner.add("Account Owner");
-        accountOwner.add(firstName + " " + lastName);
-        getDetails().add(accountOwner);
+        System.out.printf("%-20s %20s\n", "Interest Rate", interestRate + "%" );
+        System.out.printf("%-20s %20s\n", "Account Type", typeOfAccount);
+        System.out.printf("%-20s %20s\n", "Account Owner", firstName + " " + lastName );
     }
 
 

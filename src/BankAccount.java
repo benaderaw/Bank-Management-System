@@ -72,26 +72,10 @@ public abstract class BankAccount implements BankOperations {
 
     @Override
     public void viewDetails(User currentUser){
-
-        ArrayList<String> accountNumber = new ArrayList<>();
-        accountNumber.add("Account Number");
-        accountNumber.add("" + this.accountNumber);
-        details.add(accountNumber);
-
-        ArrayList<String> routingNumber = new ArrayList<>();
-        routingNumber.add("Routing Number");
-        routingNumber.add("" + this.routingNumber);
-        details.add(routingNumber);
-
-        ArrayList<String> emptySpace = new ArrayList<>();
-        emptySpace.add("----");
-        emptySpace.add("");
-        details.add(emptySpace);
-
-        ArrayList<String> balance = new ArrayList<>();
-        balance.add("Current Balance");
-        balance.add("$" + this.balance);
-        details.add(balance);
+        System.out.printf("%-20s %20d\n", "Account Number",  accountNumber);
+        System.out.printf("%-20s %20d\n", "Routing Number", routingNumber);
+        System.out.printf("%s\n", "----");
+        System.out.printf("%-20s %20s\n", "Current Balance", String.format("$%.2f", balance) );
     }
 
 
